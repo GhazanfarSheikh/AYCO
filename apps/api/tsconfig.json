@@ -1,7 +1,6 @@
 {
   "extends": "../../packages/config/tsconfig.node.json",
   "compilerOptions": {
-    "baseUrl": ".",
     "composite": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
@@ -10,8 +9,13 @@
     "outDir": "./dist",
     "rootDir": ".",
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": [
+        "./src/*"
+      ]
     }
   },
-  "include": ["src/**/*.ts", "test/**/*.ts"]
+  "include": [
+    "src/**/*.ts",
+    "test/**/*.ts"
+  ]
 }

@@ -3,7 +3,10 @@ import { Injectable } from "@nestjs/common";
 
 import { PrismaService } from "@/infrastructure/prisma/prisma.service";
 
-import { productCatalogInclude } from "./products.mapper";
+import {
+  type ProductCatalogRecord,
+  productCatalogInclude,
+} from "./products.mapper";
 
 type BrowseProductsInput = {
   campus?: string;
@@ -16,7 +19,9 @@ type BrowseProductsInput = {
 export class ProductsRepository {
   constructor(private readonly prisma: PrismaService) {}
 
-  async listBrowseCandidates(input: BrowseProductsInput) {
+  async listBrowseCandidates(
+    input: BrowseProductsInput,
+  ): Promise<ProductCatalogRecord[]> {
     return this.prisma.product.findMany({
       include: productCatalogInclude,
       orderBy: [{ updatedAt: "desc" }],
@@ -24,7 +29,7 @@ export class ProductsRepository {
     });
   }
 
-  async findByIdOrSlug(idOrSlug: string) {
+  async findByIdOrSlug(idOrSlug: string): Promise<ProductCatalogRecord | null> {
     return this.prisma.product.findFirst({
       include: productCatalogInclude,
       where: {
@@ -34,7 +39,10 @@ export class ProductsRepository {
     });
   }
 
-  async findRelatedCandidates(productId: string, zoneSlugs: string[]) {
+  async findRelatedCandidates(
+    productId: string,
+    zoneSlugs: string[],
+  ): Promise<ProductCatalogRecord[]> {
     return this.prisma.product.findMany({
       include: productCatalogInclude,
       orderBy: [{ heatScore: "desc" }, { ratingCount: "desc" }],

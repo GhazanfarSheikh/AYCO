@@ -83,7 +83,7 @@ export class ProductsService {
 
     const related = await this.productsRepository.findRelatedCandidates(
       product.id,
-      product.zones.map((entry) => entry.zone.slug),
+      product.zones.map((entry: { zone: { slug: string } }) => entry.zone.slug),
     );
 
     return {
