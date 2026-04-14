@@ -1,8 +1,5 @@
+import { type Prisma, ProductStatus } from "@ayco/db";
 import { Injectable } from "@nestjs/common";
-import {
-  ProductStatus,
-  type Prisma,
-} from "@ayco/db";
 
 import { PrismaService } from "@/infrastructure/prisma/prisma.service";
 

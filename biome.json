@@ -25,6 +25,11 @@
     "indentStyle": "space",
     "indentWidth": 2
   },
+  "javascript": {
+    "parser": {
+      "unsafeParameterDecoratorsEnabled": true
+    }
+  },
   "linter": {
     "enabled": true,
     "rules": {
@@ -41,6 +46,20 @@
       "react": "recommended"
     }
   },
+  "overrides": [
+    {
+      "includes": [
+        "apps/api/**/*.ts"
+      ],
+      "linter": {
+        "rules": {
+          "correctness": {
+            "useHookAtTopLevel": "off"
+          }
+        }
+      }
+    }
+  ],
   "assist": {
     "actions": {
       "source": {

@@ -1,7 +1,6 @@
 import { Injectable } from "@nestjs/common";
-
-import { ERROR_CODES } from "@/common/errors/error-codes";
 import { DomainError } from "@/common/errors/domain-error";
+import { ERROR_CODES } from "@/common/errors/error-codes";
 
 import { ZonesRepository } from "./zones.repository";
 

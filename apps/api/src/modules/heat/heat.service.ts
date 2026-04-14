@@ -4,9 +4,8 @@ import {
   listHeatQuerySchema,
 } from "@ayco/contracts";
 import { Injectable } from "@nestjs/common";
-
-import { ERROR_CODES } from "@/common/errors/error-codes";
 import { DomainError } from "@/common/errors/domain-error";
+import { ERROR_CODES } from "@/common/errors/error-codes";
 import { toProductCardDto } from "@/modules/products/products.mapper";
 
 import { HeatRepository } from "./heat.repository";
@@ -27,7 +26,9 @@ export class HeatService {
     }
 
     const query = parsed.data;
-    const candidates = await this.heatRepository.listHeatCandidates(query.campus);
+    const candidates = await this.heatRepository.listHeatCandidates(
+      query.campus,
+    );
     const ranked = candidates
       .map((product) => {
         const dto = toProductCardDto(product);
@@ -36,7 +37,9 @@ export class HeatService {
         return {
           ...dto,
           campusScore,
-          rankingScore: (campusScore ?? dto.heatScore) + this.getRankingBoost(dto, query.examMode),
+          rankingScore:
+            (campusScore ?? dto.heatScore) +
+            this.getRankingBoost(dto, query.examMode),
         };
       })
       .sort((left, right) => right.rankingScore - left.rankingScore)

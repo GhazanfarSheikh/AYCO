@@ -1,5 +1,17 @@
-import { loginSchema, refreshSessionSchema, registerSchema, successResponse } from "@ayco/contracts";
-import { Body, Controller, HttpCode, Post, Res, UsePipes } from "@nestjs/common";
+import {
+  loginSchema,
+  refreshSessionSchema,
+  registerSchema,
+  successResponse,
+} from "@ayco/contracts";
+import {
+  Body,
+  Controller,
+  HttpCode,
+  Post,
+  Res,
+  UsePipes,
+} from "@nestjs/common";
 import { ApiOkResponse, ApiTags } from "@nestjs/swagger";
 import type { FastifyReply } from "fastify";
 
@@ -16,7 +28,10 @@ export class AuthController {
   @Post("register")
   @ApiOkResponse({ description: "Register and create session." })
   @UsePipes(new ZodValidationPipe(registerSchema))
-  async register(@Body() body: unknown, @Res({ passthrough: true }) reply: FastifyReply) {
+  async register(
+    @Body() body: unknown,
+    @Res({ passthrough: true }) reply: FastifyReply,
+  ) {
     const session = await this.authService.register(body);
     this.setSessionCookies(reply, session.accessToken, session.refreshToken);
     return successResponse(session.user);
@@ -26,7 +41,10 @@ export class AuthController {
   @HttpCode(200)
   @ApiOkResponse({ description: "Login and create session." })
   @UsePipes(new ZodValidationPipe(loginSchema))
-  async login(@Body() body: unknown, @Res({ passthrough: true }) reply: FastifyReply) {
+  async login(
+    @Body() body: unknown,
+    @Res({ passthrough: true }) reply: FastifyReply,
+  ) {
     const session = await this.authService.login(body);
     this.setSessionCookies(reply, session.accessToken, session.refreshToken);
     return successResponse(session.user);
@@ -36,7 +54,10 @@ export class AuthController {
   @HttpCode(200)
   @ApiOkResponse({ description: "Rotate refresh token." })
   @UsePipes(new ZodValidationPipe(refreshSessionSchema))
-  async refresh(@Body() body: unknown, @Res({ passthrough: true }) reply: FastifyReply) {
+  async refresh(
+    @Body() body: unknown,
+    @Res({ passthrough: true }) reply: FastifyReply,
+  ) {
     const session = await this.authService.refresh(body);
     this.setSessionCookies(reply, session.accessToken, session.refreshToken);
     return successResponse(session.user);

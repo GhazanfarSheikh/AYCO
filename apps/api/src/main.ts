@@ -5,11 +5,13 @@ import cors from "@fastify/cors";
 import helmet from "@fastify/helmet";
 import { ValidationPipe } from "@nestjs/common";
 import { NestFactory } from "@nestjs/core";
-import { FastifyAdapter, NestFastifyApplication } from "@nestjs/platform-fastify";
+import {
+  FastifyAdapter,
+  NestFastifyApplication,
+} from "@nestjs/platform-fastify";
 import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
-
-import { DomainExceptionFilter } from "./common/filters/domain-exception.filter";
 import { AppModule } from "./app.module";
+import { DomainExceptionFilter } from "./common/filters/domain-exception.filter";
 
 async function bootstrap() {
   const app = await NestFactory.create<NestFastifyApplication>(

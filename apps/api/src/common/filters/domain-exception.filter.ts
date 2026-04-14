@@ -27,14 +27,16 @@ export class DomainExceptionFilter implements ExceptionFilter {
     }
 
     if (exception instanceof HttpException) {
-      return response.status(exception.getStatus()).send(
-        errorResponse(
-          "HTTP_EXCEPTION",
-          exception.message,
-          exception.getResponse(),
-          { requestId },
-        ),
-      );
+      return response
+        .status(exception.getStatus())
+        .send(
+          errorResponse(
+            "HTTP_EXCEPTION",
+            exception.message,
+            exception.getResponse(),
+            { requestId },
+          ),
+        );
     }
 
     return response

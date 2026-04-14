@@ -8,7 +8,10 @@ export class ScoutRanker {
     const normalizedTerm = term.toLowerCase();
 
     return [...products].sort((left, right) => {
-      return this.scoreProduct(right, normalizedTerm) - this.scoreProduct(left, normalizedTerm);
+      return (
+        this.scoreProduct(right, normalizedTerm) -
+        this.scoreProduct(left, normalizedTerm)
+      );
     });
   }
 
@@ -21,7 +24,9 @@ export class ScoutRanker {
     const keywordMatch = product.searchKeywords.some((keyword) =>
       keyword.toLowerCase().includes(term),
     );
-    const tagMatch = product.tags.some((tag) => tag.label.toLowerCase().includes(term));
+    const tagMatch = product.tags.some((tag) =>
+      tag.label.toLowerCase().includes(term),
+    );
 
     let score = product.heatScore;
 
@@ -49,7 +54,10 @@ export class ScoutRanker {
       score += 14;
     }
 
-    if (product.isExamRelevant && ["study", "exam", "finals", "focus"].some((entry) => term.includes(entry))) {
+    if (
+      product.isExamRelevant &&
+      ["study", "exam", "finals", "focus"].some((entry) => term.includes(entry))
+    ) {
       score += 22;
     }
 

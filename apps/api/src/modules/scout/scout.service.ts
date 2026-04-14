@@ -1,8 +1,7 @@
 import { scoutSearchQuerySchema } from "@ayco/contracts";
 import { Injectable } from "@nestjs/common";
-
-import { ERROR_CODES } from "@/common/errors/error-codes";
 import { DomainError } from "@/common/errors/domain-error";
+import { ERROR_CODES } from "@/common/errors/error-codes";
 import { toProductCardDto } from "@/modules/products/products.mapper";
 
 import { ScoutRanker } from "./scout.ranker";

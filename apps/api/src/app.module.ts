@@ -1,4 +1,4 @@
-import { Module, MiddlewareConsumer, NestModule } from "@nestjs/common";
+import { MiddlewareConsumer, Module, NestModule } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
 import { LoggerModule } from "nestjs-pino";
 

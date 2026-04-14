@@ -1,4 +1,4 @@
-import { listStealsQuerySchema, type ListStealsQuery } from "@ayco/contracts";
+import { type ListStealsQuery, listStealsQuerySchema } from "@ayco/contracts";
 
 export { listStealsQuerySchema };
 export type ListStealsQueryDto = ListStealsQuery;

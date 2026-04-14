@@ -1,8 +1,12 @@
 import { randomUUID } from "node:crypto";
 
-import { loginSchema, refreshSessionSchema, registerSchema } from "@ayco/contracts";
-import { JwtService } from "@nestjs/jwt";
+import {
+  loginSchema,
+  refreshSessionSchema,
+  registerSchema,
+} from "@ayco/contracts";
 import { Injectable } from "@nestjs/common";
+import { JwtService } from "@nestjs/jwt";
 import * as argon2 from "argon2";
 
 import { authErrors } from "./auth.errors";
@@ -48,7 +52,10 @@ export class AuthService {
       throw authErrors.invalidCredentials();
     }
 
-    const passwordMatches = await argon2.verify(user.passwordHash, parsed.password);
+    const passwordMatches = await argon2.verify(
+      user.passwordHash,
+      parsed.password,
+    );
 
     if (!passwordMatches) {
       throw authErrors.invalidCredentials();

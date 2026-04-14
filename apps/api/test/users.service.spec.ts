@@ -24,7 +24,9 @@ describe("UsersService", () => {
       role: "student",
     });
 
-    await expect(usersService.getMe("ck1234567890123456789012")).resolves.toMatchObject({
+    await expect(
+      usersService.getMe("ck1234567890123456789012"),
+    ).resolves.toMatchObject({
       campusSlug: "nyu",
       email: "ari@ayco.store",
       firstName: "Ari",

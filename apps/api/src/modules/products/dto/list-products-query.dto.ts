@@ -1,6 +1,6 @@
 import {
-  catalogProductQuerySchema,
   type CatalogProductQuery,
+  catalogProductQuerySchema,
 } from "@ayco/contracts";
 
 export { catalogProductQuerySchema };

@@ -33,7 +33,9 @@ export class ProductsController {
   }
 
   @Get(":idOrSlug/related")
-  @ApiOkResponse({ description: "Get related products for a product detail page." })
+  @ApiOkResponse({
+    description: "Get related products for a product detail page.",
+  })
   async getRelatedProducts(@Param("idOrSlug") idOrSlug: string) {
     return ok(await this.productsService.getRelatedProducts(idOrSlug));
   }

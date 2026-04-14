@@ -73,8 +73,8 @@ describe("HeatService", () => {
   });
 
   it("rejects invalid Heat filters", async () => {
-    await expect(
-      heatService.listHeat({ limit: 999 }),
-    ).rejects.toMatchObject({ code: "CATALOG_FILTER_INVALID" });
+    await expect(heatService.listHeat({ limit: 999 })).rejects.toMatchObject({
+      code: "CATALOG_FILTER_INVALID",
+    });
   });
 });

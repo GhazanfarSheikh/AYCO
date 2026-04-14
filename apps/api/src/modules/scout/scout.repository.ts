@@ -1,5 +1,5 @@
-import { Injectable } from "@nestjs/common";
 import { ProductStatus } from "@ayco/db";
+import { Injectable } from "@nestjs/common";
 
 import { PrismaService } from "@/infrastructure/prisma/prisma.service";
 import { productCatalogInclude } from "@/modules/products/products.mapper";
@@ -38,7 +38,9 @@ export class ScoutRepository {
               },
             ],
           },
-          campus ? { OR: [{ campus: { slug: campus } }, { campusId: null }] } : {},
+          campus
+            ? { OR: [{ campus: { slug: campus } }, { campusId: null }] }
+            : {},
         ],
         status: ProductStatus.active,
       },

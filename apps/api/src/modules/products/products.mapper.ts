@@ -54,7 +54,9 @@ function toNumber(value: Prisma.Decimal | number | null | undefined) {
 }
 
 function getActivePrice(product: ProductCatalogRecord): PriceDto {
-  const fallback = product.variants.find((variant) => variant.isDefault) ?? product.variants[0];
+  const fallback =
+    product.variants.find((variant) => variant.isDefault) ??
+    product.variants[0];
   const price = fallback?.prices[0];
 
   return {
@@ -85,7 +87,9 @@ function normalizeSpecs(specs: Prisma.JsonValue | null): ProductSpecDto[] {
   });
 }
 
-export function toProductCardDto(product: ProductCatalogRecord): ProductCardDto {
+export function toProductCardDto(
+  product: ProductCatalogRecord,
+): ProductCardDto {
   return {
     heatScore: product.heatScore,
     heatTier: product.heatTier,
@@ -132,7 +136,9 @@ export function toProductVariantDto(
   }));
 }
 
-export function toProductDetailDto(product: ProductCatalogRecord): ProductDetailDto {
+export function toProductDetailDto(
+  product: ProductCatalogRecord,
+): ProductDetailDto {
   return {
     ...toProductCardDto(product),
     description: product.description,

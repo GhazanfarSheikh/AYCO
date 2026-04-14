@@ -1,5 +1,5 @@
-import { Injectable } from "@nestjs/common";
 import type { Prisma } from "@ayco/db";
+import { Injectable } from "@nestjs/common";
 
 import { PrismaService } from "@/infrastructure/prisma/prisma.service";
 import { productCatalogInclude } from "@/modules/products/products.mapper";

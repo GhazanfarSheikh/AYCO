@@ -19,7 +19,9 @@ describe("ZonesService", () => {
   it("throws a Zone-specific error for missing slugs", async () => {
     zonesRepository.findBySlug.mockResolvedValue(null);
 
-    await expect(zonesService.getZoneDetail("missing-zone")).rejects.toMatchObject({
+    await expect(
+      zonesService.getZoneDetail("missing-zone"),
+    ).rejects.toMatchObject({
       code: "ZONE_NOT_FOUND",
     });
   });
@@ -35,7 +37,10 @@ describe("ZonesService", () => {
       name: "Tech Zone",
       slug: "tech",
     });
-    zonesRepository.findPriceRangeForZone.mockResolvedValue({ max: 129, min: 19 });
+    zonesRepository.findPriceRangeForZone.mockResolvedValue({
+      max: 129,
+      min: 19,
+    });
 
     await expect(zonesService.getZoneDetail("tech")).resolves.toMatchObject({
       filters: {

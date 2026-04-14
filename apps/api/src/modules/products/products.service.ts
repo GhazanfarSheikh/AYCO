@@ -1,19 +1,15 @@
 import {
-  catalogProductQuerySchema,
   type ApiMeta,
   type CatalogProductQuery,
+  catalogProductQuerySchema,
 } from "@ayco/contracts";
 import { Injectable } from "@nestjs/common";
-
-import { ERROR_CODES } from "@/common/errors/error-codes";
 import { DomainError } from "@/common/errors/domain-error";
+import { ERROR_CODES } from "@/common/errors/error-codes";
 import { buildPaginationMeta } from "@/common/http/pagination.util";
 import { parsePageNumber } from "@/common/query/parse-pagination";
 
-import {
-  toProductCardDto,
-  toProductDetailDto,
-} from "./products.mapper";
+import { toProductCardDto, toProductDetailDto } from "./products.mapper";
 import { ProductsRepository } from "./products.repository";
 
 @Injectable()
@@ -120,7 +116,6 @@ export class ProductsService {
           return right.receiptCount - left.receiptCount;
         case "heat":
           return right.heatScore + rightBoost - (left.heatScore + leftBoost);
-        case "newest":
         default:
           return rightBoost - leftBoost || right.heatScore - left.heatScore;
       }

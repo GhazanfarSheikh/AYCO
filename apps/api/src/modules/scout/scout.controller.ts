@@ -11,7 +11,9 @@ export class ScoutController {
   constructor(private readonly scoutService: ScoutService) {}
 
   @Get("search")
-  @ApiOkResponse({ description: "Run AYCO Scout search across products and zones." })
+  @ApiOkResponse({
+    description: "Run AYCO Scout search across products and zones.",
+  })
   @ApiQuery({ name: "q", required: true })
   @ApiQuery({ name: "campus", required: false })
   async search(@Query() query: Record<string, unknown>) {
