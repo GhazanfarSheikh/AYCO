@@ -1,0 +1,393 @@
+import { z } from "zod";
+export declare const priceSchema: z.ZodObject<{
+    amount: z.ZodNumber;
+    compareAtAmount: z.ZodNullable<z.ZodNumber>;
+    currency: z.ZodDefault<z.ZodString>;
+}, z.core.$strip>;
+export declare const productMediaSchema: z.ZodObject<{
+    alt: z.ZodNullable<z.ZodString>;
+    id: z.ZodString;
+    sortOrder: z.ZodNumber;
+    type: z.ZodEnum<{
+        image: "image";
+        video: "video";
+    }>;
+    url: z.ZodString;
+}, z.core.$strip>;
+export declare const productVariantSchema: z.ZodObject<{
+    color: z.ZodNullable<z.ZodString>;
+    id: z.ZodString;
+    isDefault: z.ZodBoolean;
+    name: z.ZodString;
+    price: z.ZodOptional<z.ZodObject<{
+        amount: z.ZodNumber;
+        compareAtAmount: z.ZodNullable<z.ZodNumber>;
+        currency: z.ZodDefault<z.ZodString>;
+    }, z.core.$strip>>;
+    size: z.ZodNullable<z.ZodString>;
+    sku: z.ZodString;
+}, z.core.$strip>;
+export declare const productSpecSchema: z.ZodObject<{
+    label: z.ZodString;
+    value: z.ZodString;
+}, z.core.$strip>;
+export declare const productCardSchema: z.ZodObject<{
+    heatScore: z.ZodNumber;
+    heatTier: z.ZodEnum<{
+        cold: "cold";
+        warming: "warming";
+        heating: "heating";
+        blazing: "blazing";
+    }>;
+    id: z.ZodString;
+    isExamRelevant: z.ZodDefault<z.ZodBoolean>;
+    isFeatured: z.ZodDefault<z.ZodBoolean>;
+    primaryImage: z.ZodNullable<z.ZodObject<{
+        alt: z.ZodNullable<z.ZodString>;
+        id: z.ZodString;
+        sortOrder: z.ZodNumber;
+        type: z.ZodEnum<{
+            image: "image";
+            video: "video";
+        }>;
+        url: z.ZodString;
+    }, z.core.$strip>>;
+    price: z.ZodObject<{
+        amount: z.ZodNumber;
+        compareAtAmount: z.ZodNullable<z.ZodNumber>;
+        currency: z.ZodDefault<z.ZodString>;
+    }, z.core.$strip>;
+    ratingAverage: z.ZodNullable<z.ZodNumber>;
+    ratingCount: z.ZodNumber;
+    receiptCount: z.ZodDefault<z.ZodNumber>;
+    slug: z.ZodString;
+    subtitle: z.ZodNullable<z.ZodString>;
+    title: z.ZodString;
+    zoneSlugs: z.ZodArray<z.ZodString>;
+}, z.core.$strip>;
+export declare const productDetailSchema: z.ZodObject<{
+    heatScore: z.ZodNumber;
+    heatTier: z.ZodEnum<{
+        cold: "cold";
+        warming: "warming";
+        heating: "heating";
+        blazing: "blazing";
+    }>;
+    id: z.ZodString;
+    isExamRelevant: z.ZodDefault<z.ZodBoolean>;
+    isFeatured: z.ZodDefault<z.ZodBoolean>;
+    primaryImage: z.ZodNullable<z.ZodObject<{
+        alt: z.ZodNullable<z.ZodString>;
+        id: z.ZodString;
+        sortOrder: z.ZodNumber;
+        type: z.ZodEnum<{
+            image: "image";
+            video: "video";
+        }>;
+        url: z.ZodString;
+    }, z.core.$strip>>;
+    price: z.ZodObject<{
+        amount: z.ZodNumber;
+        compareAtAmount: z.ZodNullable<z.ZodNumber>;
+        currency: z.ZodDefault<z.ZodString>;
+    }, z.core.$strip>;
+    ratingAverage: z.ZodNullable<z.ZodNumber>;
+    ratingCount: z.ZodNumber;
+    slug: z.ZodString;
+    subtitle: z.ZodNullable<z.ZodString>;
+    title: z.ZodString;
+    zoneSlugs: z.ZodArray<z.ZodString>;
+    description: z.ZodString;
+    dispatchDays: z.ZodNullable<z.ZodNumber>;
+    features: z.ZodArray<z.ZodString>;
+    media: z.ZodArray<z.ZodObject<{
+        alt: z.ZodNullable<z.ZodString>;
+        id: z.ZodString;
+        sortOrder: z.ZodNumber;
+        type: z.ZodEnum<{
+            image: "image";
+            video: "video";
+        }>;
+        url: z.ZodString;
+    }, z.core.$strip>>;
+    receiptCount: z.ZodNumber;
+    specs: z.ZodArray<z.ZodObject<{
+        label: z.ZodString;
+        value: z.ZodString;
+    }, z.core.$strip>>;
+    tags: z.ZodArray<z.ZodString>;
+    variants: z.ZodArray<z.ZodObject<{
+        color: z.ZodNullable<z.ZodString>;
+        id: z.ZodString;
+        isDefault: z.ZodBoolean;
+        name: z.ZodString;
+        price: z.ZodOptional<z.ZodObject<{
+            amount: z.ZodNumber;
+            compareAtAmount: z.ZodNullable<z.ZodNumber>;
+            currency: z.ZodDefault<z.ZodString>;
+        }, z.core.$strip>>;
+        size: z.ZodNullable<z.ZodString>;
+        sku: z.ZodString;
+    }, z.core.$strip>>;
+}, z.core.$strip>;
+export declare const catalogProductQuerySchema: z.ZodObject<{
+    campus: z.ZodOptional<z.ZodString>;
+    cursor: z.ZodOptional<z.ZodString>;
+    examMode: z.ZodOptional<z.ZodCoercedBoolean<unknown>>;
+    heatOnly: z.ZodOptional<z.ZodCoercedBoolean<unknown>>;
+    limit: z.ZodDefault<z.ZodCoercedNumber<unknown>>;
+    maxPrice: z.ZodOptional<z.ZodCoercedNumber<unknown>>;
+    minPrice: z.ZodOptional<z.ZodCoercedNumber<unknown>>;
+    page: z.ZodOptional<z.ZodCoercedNumber<unknown>>;
+    sort: z.ZodDefault<z.ZodEnum<{
+        newest: "newest";
+        "price-asc": "price-asc";
+        "price-desc": "price-desc";
+        grabbed: "grabbed";
+        heat: "heat";
+    }>>;
+    zone: z.ZodOptional<z.ZodString>;
+}, z.core.$strip>;
+export declare const listProductsResponseSchema: z.ZodUnion<readonly [z.ZodObject<{
+    data: z.ZodObject<{
+        items: z.ZodArray<z.ZodObject<{
+            heatScore: z.ZodNumber;
+            heatTier: z.ZodEnum<{
+                cold: "cold";
+                warming: "warming";
+                heating: "heating";
+                blazing: "blazing";
+            }>;
+            id: z.ZodString;
+            isExamRelevant: z.ZodDefault<z.ZodBoolean>;
+            isFeatured: z.ZodDefault<z.ZodBoolean>;
+            primaryImage: z.ZodNullable<z.ZodObject<{
+                alt: z.ZodNullable<z.ZodString>;
+                id: z.ZodString;
+                sortOrder: z.ZodNumber;
+                type: z.ZodEnum<{
+                    image: "image";
+                    video: "video";
+                }>;
+                url: z.ZodString;
+            }, z.core.$strip>>;
+            price: z.ZodObject<{
+                amount: z.ZodNumber;
+                compareAtAmount: z.ZodNullable<z.ZodNumber>;
+                currency: z.ZodDefault<z.ZodString>;
+            }, z.core.$strip>;
+            ratingAverage: z.ZodNullable<z.ZodNumber>;
+            ratingCount: z.ZodNumber;
+            receiptCount: z.ZodDefault<z.ZodNumber>;
+            slug: z.ZodString;
+            subtitle: z.ZodNullable<z.ZodString>;
+            title: z.ZodString;
+            zoneSlugs: z.ZodArray<z.ZodString>;
+        }, z.core.$strip>>;
+    }, z.core.$strip>;
+    meta: z.ZodOptional<z.ZodObject<{
+        pagination: z.ZodOptional<z.ZodObject<{
+            cursor: z.ZodOptional<z.ZodString>;
+            hasMore: z.ZodOptional<z.ZodBoolean>;
+            nextCursor: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+            page: z.ZodOptional<z.ZodNumber>;
+            pageSize: z.ZodOptional<z.ZodNumber>;
+            total: z.ZodOptional<z.ZodNumber>;
+        }, z.core.$strip>>;
+        requestId: z.ZodOptional<z.ZodString>;
+    }, z.core.$strip>>;
+    success: z.ZodLiteral<true>;
+}, z.core.$strip>, z.ZodObject<{
+    data: z.ZodNull;
+    error: z.ZodObject<{
+        code: z.ZodString;
+        details: z.ZodOptional<z.ZodUnknown>;
+        message: z.ZodString;
+    }, z.core.$strip>;
+    meta: z.ZodOptional<z.ZodObject<{
+        pagination: z.ZodOptional<z.ZodObject<{
+            cursor: z.ZodOptional<z.ZodString>;
+            hasMore: z.ZodOptional<z.ZodBoolean>;
+            nextCursor: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+            page: z.ZodOptional<z.ZodNumber>;
+            pageSize: z.ZodOptional<z.ZodNumber>;
+            total: z.ZodOptional<z.ZodNumber>;
+        }, z.core.$strip>>;
+        requestId: z.ZodOptional<z.ZodString>;
+    }, z.core.$strip>>;
+    success: z.ZodLiteral<false>;
+}, z.core.$strip>]>;
+export declare const productDetailResponseSchema: z.ZodUnion<readonly [z.ZodObject<{
+    data: z.ZodObject<{
+        heatScore: z.ZodNumber;
+        heatTier: z.ZodEnum<{
+            cold: "cold";
+            warming: "warming";
+            heating: "heating";
+            blazing: "blazing";
+        }>;
+        id: z.ZodString;
+        isExamRelevant: z.ZodDefault<z.ZodBoolean>;
+        isFeatured: z.ZodDefault<z.ZodBoolean>;
+        primaryImage: z.ZodNullable<z.ZodObject<{
+            alt: z.ZodNullable<z.ZodString>;
+            id: z.ZodString;
+            sortOrder: z.ZodNumber;
+            type: z.ZodEnum<{
+                image: "image";
+                video: "video";
+            }>;
+            url: z.ZodString;
+        }, z.core.$strip>>;
+        price: z.ZodObject<{
+            amount: z.ZodNumber;
+            compareAtAmount: z.ZodNullable<z.ZodNumber>;
+            currency: z.ZodDefault<z.ZodString>;
+        }, z.core.$strip>;
+        ratingAverage: z.ZodNullable<z.ZodNumber>;
+        ratingCount: z.ZodNumber;
+        slug: z.ZodString;
+        subtitle: z.ZodNullable<z.ZodString>;
+        title: z.ZodString;
+        zoneSlugs: z.ZodArray<z.ZodString>;
+        description: z.ZodString;
+        dispatchDays: z.ZodNullable<z.ZodNumber>;
+        features: z.ZodArray<z.ZodString>;
+        media: z.ZodArray<z.ZodObject<{
+            alt: z.ZodNullable<z.ZodString>;
+            id: z.ZodString;
+            sortOrder: z.ZodNumber;
+            type: z.ZodEnum<{
+                image: "image";
+                video: "video";
+            }>;
+            url: z.ZodString;
+        }, z.core.$strip>>;
+        receiptCount: z.ZodNumber;
+        specs: z.ZodArray<z.ZodObject<{
+            label: z.ZodString;
+            value: z.ZodString;
+        }, z.core.$strip>>;
+        tags: z.ZodArray<z.ZodString>;
+        variants: z.ZodArray<z.ZodObject<{
+            color: z.ZodNullable<z.ZodString>;
+            id: z.ZodString;
+            isDefault: z.ZodBoolean;
+            name: z.ZodString;
+            price: z.ZodOptional<z.ZodObject<{
+                amount: z.ZodNumber;
+                compareAtAmount: z.ZodNullable<z.ZodNumber>;
+                currency: z.ZodDefault<z.ZodString>;
+            }, z.core.$strip>>;
+            size: z.ZodNullable<z.ZodString>;
+            sku: z.ZodString;
+        }, z.core.$strip>>;
+    }, z.core.$strip>;
+    meta: z.ZodOptional<z.ZodObject<{
+        pagination: z.ZodOptional<z.ZodObject<{
+            cursor: z.ZodOptional<z.ZodString>;
+            hasMore: z.ZodOptional<z.ZodBoolean>;
+            nextCursor: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+            page: z.ZodOptional<z.ZodNumber>;
+            pageSize: z.ZodOptional<z.ZodNumber>;
+            total: z.ZodOptional<z.ZodNumber>;
+        }, z.core.$strip>>;
+        requestId: z.ZodOptional<z.ZodString>;
+    }, z.core.$strip>>;
+    success: z.ZodLiteral<true>;
+}, z.core.$strip>, z.ZodObject<{
+    data: z.ZodNull;
+    error: z.ZodObject<{
+        code: z.ZodString;
+        details: z.ZodOptional<z.ZodUnknown>;
+        message: z.ZodString;
+    }, z.core.$strip>;
+    meta: z.ZodOptional<z.ZodObject<{
+        pagination: z.ZodOptional<z.ZodObject<{
+            cursor: z.ZodOptional<z.ZodString>;
+            hasMore: z.ZodOptional<z.ZodBoolean>;
+            nextCursor: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+            page: z.ZodOptional<z.ZodNumber>;
+            pageSize: z.ZodOptional<z.ZodNumber>;
+            total: z.ZodOptional<z.ZodNumber>;
+        }, z.core.$strip>>;
+        requestId: z.ZodOptional<z.ZodString>;
+    }, z.core.$strip>>;
+    success: z.ZodLiteral<false>;
+}, z.core.$strip>]>;
+export declare const relatedProductsResponseSchema: z.ZodUnion<readonly [z.ZodObject<{
+    data: z.ZodObject<{
+        items: z.ZodArray<z.ZodObject<{
+            heatScore: z.ZodNumber;
+            heatTier: z.ZodEnum<{
+                cold: "cold";
+                warming: "warming";
+                heating: "heating";
+                blazing: "blazing";
+            }>;
+            id: z.ZodString;
+            isExamRelevant: z.ZodDefault<z.ZodBoolean>;
+            isFeatured: z.ZodDefault<z.ZodBoolean>;
+            primaryImage: z.ZodNullable<z.ZodObject<{
+                alt: z.ZodNullable<z.ZodString>;
+                id: z.ZodString;
+                sortOrder: z.ZodNumber;
+                type: z.ZodEnum<{
+                    image: "image";
+                    video: "video";
+                }>;
+                url: z.ZodString;
+            }, z.core.$strip>>;
+            price: z.ZodObject<{
+                amount: z.ZodNumber;
+                compareAtAmount: z.ZodNullable<z.ZodNumber>;
+                currency: z.ZodDefault<z.ZodString>;
+            }, z.core.$strip>;
+            ratingAverage: z.ZodNullable<z.ZodNumber>;
+            ratingCount: z.ZodNumber;
+            receiptCount: z.ZodDefault<z.ZodNumber>;
+            slug: z.ZodString;
+            subtitle: z.ZodNullable<z.ZodString>;
+            title: z.ZodString;
+            zoneSlugs: z.ZodArray<z.ZodString>;
+        }, z.core.$strip>>;
+    }, z.core.$strip>;
+    meta: z.ZodOptional<z.ZodObject<{
+        pagination: z.ZodOptional<z.ZodObject<{
+            cursor: z.ZodOptional<z.ZodString>;
+            hasMore: z.ZodOptional<z.ZodBoolean>;
+            nextCursor: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+            page: z.ZodOptional<z.ZodNumber>;
+            pageSize: z.ZodOptional<z.ZodNumber>;
+            total: z.ZodOptional<z.ZodNumber>;
+        }, z.core.$strip>>;
+        requestId: z.ZodOptional<z.ZodString>;
+    }, z.core.$strip>>;
+    success: z.ZodLiteral<true>;
+}, z.core.$strip>, z.ZodObject<{
+    data: z.ZodNull;
+    error: z.ZodObject<{
+        code: z.ZodString;
+        details: z.ZodOptional<z.ZodUnknown>;
+        message: z.ZodString;
+    }, z.core.$strip>;
+    meta: z.ZodOptional<z.ZodObject<{
+        pagination: z.ZodOptional<z.ZodObject<{
+            cursor: z.ZodOptional<z.ZodString>;
+            hasMore: z.ZodOptional<z.ZodBoolean>;
+            nextCursor: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+            page: z.ZodOptional<z.ZodNumber>;
+            pageSize: z.ZodOptional<z.ZodNumber>;
+            total: z.ZodOptional<z.ZodNumber>;
+        }, z.core.$strip>>;
+        requestId: z.ZodOptional<z.ZodString>;
+    }, z.core.$strip>>;
+    success: z.ZodLiteral<false>;
+}, z.core.$strip>]>;
+export type CatalogProductQuery = z.infer<typeof catalogProductQuerySchema>;
+export type PriceDto = z.infer<typeof priceSchema>;
+export type ProductCardDto = z.infer<typeof productCardSchema>;
+export type ProductDetailDto = z.infer<typeof productDetailSchema>;
+export type ProductSpecDto = z.infer<typeof productSpecSchema>;
+export type ProductVariantDto = z.infer<typeof productVariantSchema>;
+//# sourceMappingURL=products.d.ts.map

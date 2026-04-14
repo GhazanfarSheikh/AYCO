@@ -1,0 +1,37 @@
+@keyframes ayco-shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes ayco-float {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(0, -10px, 0);
+  }
+}
+
+@keyframes ayco-glow-pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 rgba(108, 63, 255, 0.1);
+  }
+  50% {
+    box-shadow: 0 0 32px rgba(108, 63, 255, 0.24);
+  }
+}
+
+@keyframes ayco-marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}

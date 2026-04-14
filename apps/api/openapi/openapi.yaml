@@ -1,0 +1,88 @@
+openapi: 3.1.0
+info:
+  title: AYCO API
+  version: 1.0.0
+  description: Campus-commerce backend contract for AYCO.
+servers:
+  - url: http://localhost:4000/api/v1
+paths:
+  /auth/register:
+    post:
+      summary: Register a user and create session cookies.
+  /auth/login:
+    post:
+      summary: Login and rotate session cookies.
+  /auth/refresh:
+    post:
+      summary: Rotate access and refresh tokens.
+  /auth/logout:
+    post:
+      summary: Clear auth cookies.
+  /users/me:
+    get:
+      summary: Read the authenticated user projection.
+  /users/preferences:
+    patch:
+      summary: Persist AYCO Locker preferences.
+  /catalog/products:
+    get:
+      summary: List products with zone, campus, heat, and steal-aware filters.
+  /catalog/products/{id}:
+    get:
+      summary: Read single product detail.
+  /catalog/products/{id}/related:
+    get:
+      summary: Related products for PDP also-grabbed module.
+  /catalog/zones:
+    get:
+      summary: List AYCO zones.
+  /catalog/zones/{slug}:
+    get:
+      summary: Read zone detail and listing payload.
+  /catalog/heat:
+    get:
+      summary: Read global or campus heat tiers.
+  /catalog/steals:
+    get:
+      summary: Read active steals with countdown context.
+  /scout/search:
+    get:
+      summary: Search products, suggestions, and recent scouts.
+  /stash:
+    get:
+      summary: Read the authenticated stash summary.
+  /stash/items:
+    post:
+      summary: Upsert stash items by variant.
+  /vault:
+    get:
+      summary: Read the authenticated vault.
+  /rewind:
+    get:
+      summary: Read grouped rewind history.
+  /claims:
+    get:
+      summary: List claims.
+    post:
+      summary: Create a claim idempotently.
+  /claims/{id}:
+    get:
+      summary: Read claim detail.
+  /claims/{id}/tracking:
+    get:
+      summary: Read claim tracking events.
+  /payments/intents:
+    post:
+      summary: Create Stripe payment intent for claim.
+  /receipts:
+    post:
+      summary: Create product receipt.
+  /receipts/{id}/reactions:
+    post:
+      summary: React to a receipt.
+  /locker/summary:
+    get:
+      summary: Aggregate locker summary.
+  /webhooks/stripe:
+    post:
+      summary: Process Stripe webhook events idempotently.

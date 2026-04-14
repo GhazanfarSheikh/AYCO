@@ -1,0 +1,292 @@
+@import "tailwindcss";
+@import "./animations.css";
+@import "./grain.css";
+@config "../../tailwind.config.ts";
+
+:root {
+  --ayco-bg-primary: #08080d;
+  --ayco-bg-secondary: #111118;
+  --ayco-bg-elevated: #1a1a24;
+  --ayco-bg-hover: #1e1e2a;
+  --ayco-bg-glass: rgba(255, 255, 255, 0.04);
+  --ayco-bg-glass-hover: rgba(255, 255, 255, 0.07);
+  --ayco-bg-glass-border: rgba(255, 255, 255, 0.08);
+  --ayco-bg-glass-border-hover: rgba(255, 255, 255, 0.14);
+
+  --ayco-brand-indigo: #6c3fff;
+  --ayco-brand-indigo-hover: #7b52ff;
+  --ayco-brand-indigo-muted: rgba(108, 63, 255, 0.15);
+  --ayco-brand-cyan: #00d4ff;
+  --ayco-brand-cyan-muted: rgba(0, 212, 255, 0.12);
+  --ayco-brand-lime: #b4ff3a;
+  --ayco-brand-lime-muted: rgba(180, 255, 58, 0.12);
+  --ayco-brand-coral: #ff5c5c;
+  --ayco-brand-coral-muted: rgba(255, 92, 92, 0.12);
+  --ayco-brand-amber: #ffb83a;
+  --ayco-brand-amber-muted: rgba(255, 184, 58, 0.12);
+
+  --ayco-text-primary: #f5f5f7;
+  --ayco-text-secondary: #9a9ab0;
+  --ayco-text-muted: #5a5a72;
+  --ayco-text-inverse: #08080d;
+
+  --ayco-gradient-hero: linear-gradient(
+    135deg,
+    #6c3fff 0%,
+    #00d4ff 50%,
+    #b4ff3a 100%
+  );
+  --ayco-gradient-card: linear-gradient(
+    180deg,
+    rgba(108, 63, 255, 0.12) 0%,
+    transparent 100%
+  );
+  --ayco-gradient-heat: linear-gradient(135deg, #ff5c5c 0%, #ffb83a 100%);
+  --ayco-gradient-steal: linear-gradient(135deg, #b4ff3a 0%, #00d4ff 100%);
+  --ayco-gradient-glass: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.06) 0%,
+    rgba(255, 255, 255, 0.02) 100%
+  );
+  --ayco-glow-indigo: 0 0 40px rgba(108, 63, 255, 0.3);
+  --ayco-glow-cyan: 0 0 30px rgba(0, 212, 255, 0.25);
+  --ayco-glow-lime: 0 0 30px rgba(180, 255, 58, 0.2);
+  --ayco-glow-heat: 0 0 20px rgba(255, 92, 92, 0.3);
+
+  --text-hero: clamp(2.5rem, 5vw + 1rem, 4.5rem);
+  --text-display: clamp(2rem, 4vw + 0.5rem, 3.5rem);
+  --text-h1: clamp(2rem, 3vw + 0.5rem, 3rem);
+  --text-h2: clamp(1.5rem, 2vw + 0.5rem, 2.25rem);
+  --text-h3: clamp(1.125rem, 1.5vw + 0.25rem, 1.5rem);
+  --text-body: 1rem;
+  --text-body-sm: 0.9375rem;
+  --text-small: 0.875rem;
+  --text-micro: 0.75rem;
+  --text-nano: 0.6875rem;
+
+  --space-0_5: 2px;
+  --space-1: 4px;
+  --space-1_5: 6px;
+  --space-2: 8px;
+  --space-2_5: 10px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-20: 80px;
+  --space-24: 96px;
+  --space-32: 128px;
+
+  --radius-xs: 6px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-2xl: 32px;
+  --radius-full: 9999px;
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-out-back: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-in-out-sine: cubic-bezier(0.37, 0, 0.63, 1);
+  --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+
+  --font-heading: var(--font-space-grotesk), sans-serif;
+  --font-body: var(--font-manrope), sans-serif;
+  --font-mono: var(--font-jetbrains-mono), monospace;
+}
+
+@theme inline {
+  --color-ayco-bg-primary: var(--ayco-bg-primary);
+  --color-ayco-bg-secondary: var(--ayco-bg-secondary);
+  --color-ayco-bg-elevated: var(--ayco-bg-elevated);
+  --color-ayco-brand-indigo: var(--ayco-brand-indigo);
+  --color-ayco-brand-cyan: var(--ayco-brand-cyan);
+  --color-ayco-brand-lime: var(--ayco-brand-lime);
+  --color-ayco-brand-coral: var(--ayco-brand-coral);
+  --color-ayco-brand-amber: var(--ayco-brand-amber);
+  --color-ayco-text-primary: var(--ayco-text-primary);
+  --color-ayco-text-secondary: var(--ayco-text-secondary);
+  --color-ayco-text-muted: var(--ayco-text-muted);
+  --font-sans: var(--font-body);
+  --font-mono: var(--font-mono);
+}
+
+[data-theme="light"] {
+  --ayco-bg-primary: #fafafa;
+  --ayco-bg-secondary: #ffffff;
+  --ayco-bg-elevated: #f0f2ff;
+  --ayco-bg-hover: #eef1ff;
+  --ayco-bg-glass: rgba(17, 17, 24, 0.04);
+  --ayco-bg-glass-hover: rgba(17, 17, 24, 0.06);
+  --ayco-bg-glass-border: rgba(17, 17, 24, 0.08);
+  --ayco-bg-glass-border-hover: rgba(17, 17, 24, 0.14);
+  --ayco-text-primary: #111118;
+  --ayco-text-secondary: #5a5a72;
+  --ayco-text-muted: #76768b;
+  --ayco-text-inverse: #fafafa;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  overflow-x: clip;
+  background:
+    radial-gradient(circle at top, rgba(108, 63, 255, 0.16), transparent 28%),
+    radial-gradient(circle at 80% 20%, rgba(0, 212, 255, 0.12), transparent 30%),
+    var(--ayco-bg-primary);
+  color: var(--ayco-text-primary);
+  font-family: var(--font-body);
+  text-rendering: optimizeLegibility;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+:focus-visible {
+  outline: 2px solid var(--ayco-brand-indigo);
+  outline-offset: 2px;
+}
+
+.page-shell {
+  margin-inline: auto;
+  width: min(100% - 32px, 1400px);
+}
+
+.glass-panel {
+  border: 1px solid var(--ayco-bg-glass-border);
+  background: var(--ayco-bg-glass);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  transition:
+    background 200ms ease,
+    border-color 200ms ease,
+    transform 250ms var(--ease-out-expo),
+    box-shadow 250ms var(--ease-out-expo);
+}
+
+.glass-panel:hover {
+  background: var(--ayco-bg-glass-hover);
+  border-color: var(--ayco-bg-glass-border-hover);
+}
+
+.section-heading {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.eyebrow {
+  font-family: var(--font-heading);
+  font-size: var(--text-micro);
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ayco-brand-cyan);
+}
+
+.hero-mesh {
+  background:
+    radial-gradient(
+      circle at 15% 20%,
+      rgba(108, 63, 255, 0.35),
+      transparent 24%
+    ),
+    radial-gradient(circle at 80% 10%, rgba(0, 212, 255, 0.28), transparent 24%),
+    radial-gradient(circle at 60% 80%, rgba(180, 255, 58, 0.2), transparent 28%);
+}
+
+.ayco-grid {
+  display: grid;
+  gap: 24px;
+}
+
+.vibes-shimmer {
+  overflow: hidden;
+  position: relative;
+}
+
+.vibes-shimmer::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    120deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.12) 50%,
+    transparent 100%
+  );
+  animation: ayco-shimmer 1.5s infinite;
+}
+
+.marquee-track {
+  width: max-content;
+  animation: ayco-marquee 18s linear infinite;
+}
+
+.section-card {
+  border: 1px solid var(--ayco-bg-glass-border);
+  background:
+    var(--ayco-gradient-card),
+    var(--ayco-bg-glass);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+.topline-gradient {
+  background: var(--ayco-gradient-heat);
+  background-size: 200% 100%;
+  animation: ayco-shimmer 6s linear infinite;
+}
+
+.subtle-grid {
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-position: center;
+  background-size: 24px 24px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms;
+    animation-iteration-count: 1;
+    transition-duration: 0.01ms;
+  }
+
+  html {
+    scroll-behavior: auto;
+  }
+}

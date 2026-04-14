@@ -1,0 +1,5 @@
+.grain-mask {
+  background-image: url("/grain.svg");
+  background-size: 180px 180px;
+  opacity: 0.03;
+}

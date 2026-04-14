@@ -1,0 +1,637 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  student
+  admin
+  moderator
+}
+
+enum ThemeMode {
+  dark
+  light
+  system
+}
+
+enum ProductStatus {
+  draft
+  active
+  archived
+}
+
+enum ClaimStatus {
+  draft
+  pending_payment
+  paid
+  processing
+  dispatched
+  delivered
+  cancelled
+  refunded
+  failed
+}
+
+enum PaymentStatus {
+  pending
+  requires_action
+  succeeded
+  failed
+  cancelled
+  refunded
+}
+
+enum DispatchStatus {
+  processing
+  dispatched
+  en_route
+  delivered
+  bounced
+  pulled
+}
+
+enum HeatTier {
+  cold
+  warming
+  heating
+  blazing
+}
+
+enum MediaType {
+  image
+  video
+}
+
+enum ReactionType {
+  thumbs_up
+  fire
+  skull
+  heart_eyes
+  thinking
+  money
+}
+
+enum ReceiptStatus {
+  pending
+  published
+  rejected
+}
+
+model User {
+  id                String             @id @default(cuid())
+  email             String             @unique
+  passwordHash      String
+  firstName         String
+  role              Role               @default(student)
+  isActive          Boolean            @default(true)
+  preferences       UserPreference?
+  refreshTokens     RefreshToken[]
+  stash             Stash?
+  stashItems        StashItem[]
+  vaultItems        VaultItem[]
+  rewindItems       RewindItem[]
+  claims            Claim[]
+  receipts          Receipt[]
+  receiptReactions  ReceiptReaction[]
+  cloutLedger       CloutLedgerEntry[]
+  searchLogs        SearchLog[]
+  analyticsEvents   AnalyticsEvent[]
+  auditLogs         AuditLog[]
+  idempotencyKeys   IdempotencyKey[]
+  createdAt         DateTime           @default(now())
+  updatedAt         DateTime           @updatedAt
+}
+
+model UserPreference {
+  id               String    @id @default(cuid())
+  userId           String    @unique
+  campusId         String?
+  theme            ThemeMode @default(system)
+  density          String    @default("default")
+  examMode         Boolean   @default(false)
+  claimUpdates     Boolean   @default(true)
+  stealsAlerts     Boolean   @default(true)
+  heatAlerts       Boolean   @default(false)
+  receiptResponses Boolean   @default(true)
+  marketing        Boolean   @default(false)
+  user             User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  campus           Campus?   @relation(fields: [campusId], references: [id], onDelete: SetNull)
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+}
+
+model RefreshToken {
+  id          String   @id @default(cuid())
+  userId      String
+  tokenHash   String
+  expiresAt   DateTime
+  revokedAt   DateTime?
+  userAgent   String?
+  ipAddress   String?
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([userId, revokedAt])
+}
+
+model Campus {
+  id               String               @id @default(cuid())
+  code             String?
+  name             String
+  slug             String               @unique
+  city             String?
+  region           String?
+  country          String?
+  isActive         Boolean              @default(true)
+  users            UserPreference[]
+  heatSnapshots    ProductHeatSnapshot[]
+  semesterPicks    SemesterPick[]
+  steals           Steal[]
+  products         Product[]
+  searchLogs       SearchLog[]
+  analyticsEvents  AnalyticsEvent[]
+  createdAt        DateTime             @default(now())
+  updatedAt        DateTime             @updatedAt
+}
+
+model Zone {
+  id            String           @id @default(cuid())
+  name          String
+  slug          String           @unique
+  description   String?
+  imageUrl      String?
+  iconKey       String?
+  accent        String?
+  sortOrder     Int              @default(0)
+  isActive      Boolean          @default(true)
+  productLinks  ProductZoneMap[]
+  primaryProducts Product[]      @relation("PrimaryZone")
+  semesterPicks SemesterPick[]
+  createdAt     DateTime         @default(now())
+  updatedAt     DateTime         @updatedAt
+
+  @@index([isActive, sortOrder])
+}
+
+model Product {
+  id                    String                @id @default(cuid())
+  slug                  String                @unique
+  title                 String
+  subtitle              String?
+  description           String
+  features              String[]               @default([])
+  specs                 Json?
+  searchKeywords        String[]               @default([])
+  status                ProductStatus         @default(active)
+  campusId              String?
+  primaryZoneId         String?
+  heatScore             Int                   @default(0)
+  heatTier              HeatTier              @default(cold)
+  ratingAverage         Decimal?              @db.Decimal(3, 2)
+  ratingCount           Int                   @default(0)
+  receiptCount          Int                   @default(0)
+  isFeatured            Boolean               @default(false)
+  isExamRelevant        Boolean               @default(false)
+  dispatchDays          Int?
+  campus                Campus?               @relation(fields: [campusId], references: [id], onDelete: SetNull)
+  primaryZone           Zone?                 @relation("PrimaryZone", fields: [primaryZoneId], references: [id], onDelete: SetNull)
+  media                 ProductMedia[]
+  variants              ProductVariant[]
+  tags                  ProductTag[]
+  zones                 ProductZoneMap[]
+  heatSnapshots         ProductHeatSnapshot[]
+  steals                Steal[]
+  semesterPicks         SemesterPick[]
+  vaultItems            VaultItem[]
+  rewindItems           RewindItem[]
+  receiptItems          Receipt[]
+  claimItems            ClaimItem[]
+  createdAt             DateTime              @default(now())
+  updatedAt             DateTime              @updatedAt
+
+  @@index([status, campusId, updatedAt])
+  @@index([primaryZoneId, status])
+  @@index([heatScore])
+  @@index([heatTier])
+}
+
+model ProductMedia {
+  id          String   @id @default(cuid())
+  productId   String
+  type        MediaType
+  url         String
+  alt         String?
+  sortOrder   Int      @default(0)
+  product     Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([productId, sortOrder])
+}
+
+model ProductVariant {
+  id             String         @id @default(cuid())
+  productId      String
+  sku            String         @unique
+  slug           String?
+  name           String
+  color          String?
+  size           String?
+  isDefault      Boolean        @default(false)
+  isActive       Boolean        @default(true)
+  product        Product        @relation(fields: [productId], references: [id], onDelete: Cascade)
+  inventory      Inventory?
+  prices         ProductPrice[]
+  stashItems     StashItem[]
+  claimItems     ClaimItem[]
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+
+  @@index([productId])
+}
+
+model Inventory {
+  id               String         @id @default(cuid())
+  productVariantId String         @unique
+  quantityOnHand   Int
+  quantityReserved Int            @default(0)
+  productVariant   ProductVariant @relation(fields: [productVariantId], references: [id], onDelete: Cascade)
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
+}
+
+model ProductPrice {
+  id               String         @id @default(cuid())
+  productVariantId String
+  currency         String         @default("USD")
+  amount           Decimal        @db.Decimal(10, 2)
+  compareAtAmount  Decimal?       @db.Decimal(10, 2)
+  isActive         Boolean        @default(true)
+  startsAt         DateTime?
+  endsAt           DateTime?
+  productVariant   ProductVariant @relation(fields: [productVariantId], references: [id], onDelete: Cascade)
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
+
+  @@index([productVariantId, isActive])
+}
+
+model ProductTag {
+  id          String   @id @default(cuid())
+  productId   String
+  label       String
+  product     Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([label])
+}
+
+model ProductZoneMap {
+  id          String   @id @default(cuid())
+  productId   String
+  zoneId      String
+  sortOrder   Int      @default(0)
+  product     Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  zone        Zone     @relation(fields: [zoneId], references: [id], onDelete: Cascade)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@unique([productId, zoneId])
+  @@index([zoneId, sortOrder])
+  @@index([zoneId, productId])
+}
+
+model ProductHeatSnapshot {
+  id           String    @id @default(cuid())
+  productId    String
+  campusId     String?
+  score        Int
+  tier         HeatTier
+  grabbedCount Int       @default(0)
+  vaultedCount Int       @default(0)
+  receiptCount Int       @default(0)
+  capturedAt   DateTime  @default(now())
+  product      Product   @relation(fields: [productId], references: [id], onDelete: Cascade)
+  campus       Campus?   @relation(fields: [campusId], references: [id], onDelete: SetNull)
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  @@index([productId, capturedAt])
+  @@index([campusId, capturedAt])
+  @@index([score, tier])
+}
+
+model SemesterPick {
+  id          String   @id @default(cuid())
+  campusId    String?
+  zoneId      String?
+  productId   String
+  semesterKey String
+  label       String?
+  rank        Int      @default(0)
+  isActive    Boolean  @default(true)
+  campus      Campus?  @relation(fields: [campusId], references: [id], onDelete: SetNull)
+  zone        Zone?    @relation(fields: [zoneId], references: [id], onDelete: SetNull)
+  product     Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([semesterKey, rank])
+  @@index([isActive, rank])
+}
+
+model Steal {
+  id          String   @id @default(cuid())
+  productId   String
+  campusId    String?
+  startsAt    DateTime
+  endsAt      DateTime
+  stealPrice  Decimal  @db.Decimal(10, 2)
+  priority    Int      @default(0)
+  badgeText   String?
+  isActive    Boolean  @default(true)
+  product     Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  campus      Campus?  @relation(fields: [campusId], references: [id], onDelete: SetNull)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([startsAt, endsAt])
+  @@index([campusId, endsAt])
+  @@index([campusId, startsAt, endsAt])
+  @@index([productId, endsAt])
+}
+
+model Stash {
+  id          String      @id @default(cuid())
+  userId      String      @unique
+  user        User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  items       StashItem[]
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+}
+
+model StashItem {
+  id               String         @id @default(cuid())
+  stashId          String
+  userId           String
+  productVariantId String
+  quantity         Int
+  stash            Stash          @relation(fields: [stashId], references: [id], onDelete: Cascade)
+  user             User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  productVariant   ProductVariant @relation(fields: [productVariantId], references: [id], onDelete: Restrict)
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
+
+  @@unique([userId, productVariantId])
+  @@index([stashId])
+  @@index([userId])
+}
+
+model VaultItem {
+  id          String   @id @default(cuid())
+  userId      String
+  productId   String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  product     Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@unique([userId, productId])
+  @@index([userId])
+}
+
+model RewindItem {
+  id           String   @id @default(cuid())
+  userId       String
+  productId    String
+  lastViewedAt DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  product      Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@unique([userId, productId])
+  @@index([userId, lastViewedAt])
+}
+
+model Claim {
+  id               String               @id @default(cuid())
+  userId           String
+  claimNumber      String               @unique
+  status           ClaimStatus          @default(draft)
+  dispatchStatus   DispatchStatus       @default(processing)
+  currency         String               @default("USD")
+  subtotalAmount   Decimal              @db.Decimal(10, 2)
+  discountAmount   Decimal              @default(0) @db.Decimal(10, 2)
+  dispatchAmount   Decimal              @default(0) @db.Decimal(10, 2)
+  totalAmount      Decimal              @db.Decimal(10, 2)
+  addressSnapshot  Json
+  paymentMethod    String?
+  user             User                 @relation(fields: [userId], references: [id], onDelete: Restrict)
+  items            ClaimItem[]
+  trackingEvents   ClaimTrackingEvent[]
+  paymentIntents   PaymentIntent[]
+  paymentAttempts  PaymentAttempt[]
+  createdAt        DateTime             @default(now())
+  updatedAt        DateTime             @updatedAt
+
+  @@index([userId, status, createdAt])
+}
+
+model ClaimItem {
+  id               String         @id @default(cuid())
+  claimId          String
+  productId        String
+  productVariantId String
+  quantity         Int
+  unitAmount       Decimal        @db.Decimal(10, 2)
+  totalAmount      Decimal        @db.Decimal(10, 2)
+  claim            Claim          @relation(fields: [claimId], references: [id], onDelete: Cascade)
+  product          Product        @relation(fields: [productId], references: [id], onDelete: Restrict)
+  productVariant   ProductVariant @relation(fields: [productVariantId], references: [id], onDelete: Restrict)
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
+
+  @@index([claimId])
+}
+
+model ClaimTrackingEvent {
+  id            String         @id @default(cuid())
+  claimId       String
+  dispatchStatus DispatchStatus
+  description   String
+  occurredAt    DateTime
+  claim         Claim          @relation(fields: [claimId], references: [id], onDelete: Cascade)
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+
+  @@index([claimId, occurredAt])
+}
+
+model PaymentIntent {
+  id                String        @id @default(cuid())
+  claimId           String
+  provider          String
+  providerReference String        @unique
+  amount            Decimal       @db.Decimal(10, 2)
+  currency          String        @default("USD")
+  status            PaymentStatus @default(pending)
+  idempotencyKeyId  String?
+  claim             Claim         @relation(fields: [claimId], references: [id], onDelete: Cascade)
+  idempotencyKey    IdempotencyKey? @relation(fields: [idempotencyKeyId], references: [id], onDelete: SetNull)
+  attempts          PaymentAttempt[]
+  createdAt         DateTime      @default(now())
+  updatedAt         DateTime      @updatedAt
+
+  @@index([claimId])
+  @@index([providerReference])
+}
+
+model PaymentAttempt {
+  id                String        @id @default(cuid())
+  claimId           String
+  paymentIntentId   String?
+  provider          String
+  providerReference String?
+  amount            Decimal       @db.Decimal(10, 2)
+  status            PaymentStatus @default(pending)
+  failureCode       String?
+  failureMessage    String?
+  claim             Claim         @relation(fields: [claimId], references: [id], onDelete: Cascade)
+  paymentIntent     PaymentIntent? @relation(fields: [paymentIntentId], references: [id], onDelete: SetNull)
+  createdAt         DateTime      @default(now())
+  updatedAt         DateTime      @updatedAt
+
+  @@index([claimId])
+  @@index([providerReference])
+}
+
+model WebhookEvent {
+  id              String   @id @default(cuid())
+  provider        String
+  eventId         String
+  eventType       String
+  payload         Json
+  processedAt     DateTime?
+  processingError String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@unique([provider, eventId])
+  @@index([provider, eventType])
+}
+
+model Receipt {
+  id               String            @id @default(cuid())
+  userId           String
+  productId        String
+  status           ReceiptStatus     @default(pending)
+  rating           Int
+  body             String
+  mediaUrls        String[]
+  moderationNotes  String?
+  user             User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  product          Product           @relation(fields: [productId], references: [id], onDelete: Cascade)
+  reactions        ReceiptReaction[]
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+
+  @@index([productId, createdAt])
+  @@index([userId, createdAt])
+}
+
+model ReceiptReaction {
+  id            String       @id @default(cuid())
+  receiptId     String
+  userId        String
+  reactionType  ReactionType
+  receipt       Receipt      @relation(fields: [receiptId], references: [id], onDelete: Cascade)
+  user          User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+
+  @@unique([receiptId, userId, reactionType])
+  @@index([receiptId])
+}
+
+model CloutLedgerEntry {
+  id          String   @id @default(cuid())
+  userId      String
+  delta       Int
+  reason      String
+  referenceId String?
+  referenceType String?
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([userId, createdAt])
+}
+
+model SearchLog {
+  id          String   @id @default(cuid())
+  userId      String?
+  campusId    String?
+  query       String
+  resultCount Int
+  user        User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  campus      Campus?  @relation(fields: [campusId], references: [id], onDelete: SetNull)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([query])
+  @@index([campusId, createdAt])
+}
+
+model AnalyticsEvent {
+  id          String   @id @default(cuid())
+  userId      String?
+  campusId    String?
+  eventName   String
+  payload     Json?
+  user        User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  campus      Campus?  @relation(fields: [campusId], references: [id], onDelete: SetNull)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([eventName, createdAt])
+}
+
+model IdempotencyKey {
+  id            String          @id @default(cuid())
+  userId        String?
+  scope         String
+  key           String
+  requestHash   String
+  responseBody  Json?
+  statusCode    Int?
+  expiresAt     DateTime?
+  user          User?           @relation(fields: [userId], references: [id], onDelete: SetNull)
+  paymentIntents PaymentIntent[]
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+
+  @@unique([scope, key])
+  @@index([userId, scope])
+}
+
+model AuditLog {
+  id          String   @id @default(cuid())
+  userId      String?
+  action      String
+  entityType  String
+  entityId    String?
+  payload     Json?
+  user        User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([entityType, entityId, createdAt])
+}

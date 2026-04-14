@@ -1,0 +1,26 @@
+{
+  "name": "ayco-platform",
+  "version": "0.1.0",
+  "private": true,
+  "packageManager": "pnpm@10.18.3",
+  "scripts": {
+    "dev:web": "pnpm --filter @ayco/web dev",
+    "dev:api": "pnpm --filter @ayco/api start:dev",
+    "build:web": "pnpm --filter @ayco/web build",
+    "build:api": "pnpm --filter @ayco/api build",
+    "build": "pnpm build:web",
+    "typecheck:web": "pnpm --filter @ayco/web typecheck",
+    "typecheck:api": "pnpm --filter @ayco/api typecheck",
+    "typecheck": "pnpm typecheck:web",
+    "check:web": "pnpm --filter @ayco/web check",
+    "check:api": "pnpm --filter @ayco/api check",
+    "check": "pnpm check:web",
+    "test:web": "pnpm --filter @ayco/web test",
+    "test:api": "pnpm --filter @ayco/api test",
+    "test": "pnpm test:web",
+    "test:e2e:web": "pnpm --filter @ayco/web test:e2e",
+    "db:generate": "pnpm --filter @ayco/db db:generate",
+    "db:migrate": "pnpm --filter @ayco/db db:migrate",
+    "db:seed": "pnpm --filter @ayco/db db:seed"
+  }
+}

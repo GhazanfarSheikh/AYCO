@@ -1,0 +1,131 @@
+import { z } from "zod";
+export declare const zoneSlugSchema: z.ZodString;
+export declare const zoneSummarySchema: z.ZodObject<{
+    accent: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+    description: z.ZodNullable<z.ZodString>;
+    id: z.ZodString;
+    iconKey: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+    imageUrl: z.ZodNullable<z.ZodString>;
+    name: z.ZodString;
+    productCount: z.ZodNumber;
+    slug: z.ZodString;
+}, z.core.$strip>;
+export declare const zoneDetailSchema: z.ZodObject<{
+    filters: z.ZodObject<{
+        priceRange: z.ZodNullable<z.ZodObject<{
+            max: z.ZodNumber;
+            min: z.ZodNumber;
+        }, z.core.$strip>>;
+        sorts: z.ZodArray<z.ZodString>;
+    }, z.core.$strip>;
+    zone: z.ZodObject<{
+        accent: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+        description: z.ZodNullable<z.ZodString>;
+        id: z.ZodString;
+        iconKey: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+        imageUrl: z.ZodNullable<z.ZodString>;
+        name: z.ZodString;
+        productCount: z.ZodNumber;
+        slug: z.ZodString;
+    }, z.core.$strip>;
+}, z.core.$strip>;
+export declare const listZonesResponseSchema: z.ZodUnion<readonly [z.ZodObject<{
+    data: z.ZodObject<{
+        items: z.ZodArray<z.ZodObject<{
+            accent: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+            description: z.ZodNullable<z.ZodString>;
+            id: z.ZodString;
+            iconKey: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+            imageUrl: z.ZodNullable<z.ZodString>;
+            name: z.ZodString;
+            productCount: z.ZodNumber;
+            slug: z.ZodString;
+        }, z.core.$strip>>;
+    }, z.core.$strip>;
+    meta: z.ZodOptional<z.ZodObject<{
+        pagination: z.ZodOptional<z.ZodObject<{
+            cursor: z.ZodOptional<z.ZodString>;
+            hasMore: z.ZodOptional<z.ZodBoolean>;
+            nextCursor: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+            page: z.ZodOptional<z.ZodNumber>;
+            pageSize: z.ZodOptional<z.ZodNumber>;
+            total: z.ZodOptional<z.ZodNumber>;
+        }, z.core.$strip>>;
+        requestId: z.ZodOptional<z.ZodString>;
+    }, z.core.$strip>>;
+    success: z.ZodLiteral<true>;
+}, z.core.$strip>, z.ZodObject<{
+    data: z.ZodNull;
+    error: z.ZodObject<{
+        code: z.ZodString;
+        details: z.ZodOptional<z.ZodUnknown>;
+        message: z.ZodString;
+    }, z.core.$strip>;
+    meta: z.ZodOptional<z.ZodObject<{
+        pagination: z.ZodOptional<z.ZodObject<{
+            cursor: z.ZodOptional<z.ZodString>;
+            hasMore: z.ZodOptional<z.ZodBoolean>;
+            nextCursor: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+            page: z.ZodOptional<z.ZodNumber>;
+            pageSize: z.ZodOptional<z.ZodNumber>;
+            total: z.ZodOptional<z.ZodNumber>;
+        }, z.core.$strip>>;
+        requestId: z.ZodOptional<z.ZodString>;
+    }, z.core.$strip>>;
+    success: z.ZodLiteral<false>;
+}, z.core.$strip>]>;
+export declare const getZoneResponseSchema: z.ZodUnion<readonly [z.ZodObject<{
+    data: z.ZodObject<{
+        filters: z.ZodObject<{
+            priceRange: z.ZodNullable<z.ZodObject<{
+                max: z.ZodNumber;
+                min: z.ZodNumber;
+            }, z.core.$strip>>;
+            sorts: z.ZodArray<z.ZodString>;
+        }, z.core.$strip>;
+        zone: z.ZodObject<{
+            accent: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+            description: z.ZodNullable<z.ZodString>;
+            id: z.ZodString;
+            iconKey: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+            imageUrl: z.ZodNullable<z.ZodString>;
+            name: z.ZodString;
+            productCount: z.ZodNumber;
+            slug: z.ZodString;
+        }, z.core.$strip>;
+    }, z.core.$strip>;
+    meta: z.ZodOptional<z.ZodObject<{
+        pagination: z.ZodOptional<z.ZodObject<{
+            cursor: z.ZodOptional<z.ZodString>;
+            hasMore: z.ZodOptional<z.ZodBoolean>;
+            nextCursor: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+            page: z.ZodOptional<z.ZodNumber>;
+            pageSize: z.ZodOptional<z.ZodNumber>;
+            total: z.ZodOptional<z.ZodNumber>;
+        }, z.core.$strip>>;
+        requestId: z.ZodOptional<z.ZodString>;
+    }, z.core.$strip>>;
+    success: z.ZodLiteral<true>;
+}, z.core.$strip>, z.ZodObject<{
+    data: z.ZodNull;
+    error: z.ZodObject<{
+        code: z.ZodString;
+        details: z.ZodOptional<z.ZodUnknown>;
+        message: z.ZodString;
+    }, z.core.$strip>;
+    meta: z.ZodOptional<z.ZodObject<{
+        pagination: z.ZodOptional<z.ZodObject<{
+            cursor: z.ZodOptional<z.ZodString>;
+            hasMore: z.ZodOptional<z.ZodBoolean>;
+            nextCursor: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+            page: z.ZodOptional<z.ZodNumber>;
+            pageSize: z.ZodOptional<z.ZodNumber>;
+            total: z.ZodOptional<z.ZodNumber>;
+        }, z.core.$strip>>;
+        requestId: z.ZodOptional<z.ZodString>;
+    }, z.core.$strip>>;
+    success: z.ZodLiteral<false>;
+}, z.core.$strip>]>;
+export type ZoneSummary = z.infer<typeof zoneSummarySchema>;
+export type ZoneDetailResponse = z.infer<typeof zoneDetailSchema>;
+//# sourceMappingURL=zones.d.ts.map

@@ -1,0 +1,10 @@
+export class DomainError extends Error {
+  constructor(
+    public readonly code: string,
+    message: string,
+    public readonly details?: unknown,
+    public readonly status = 400,
+  ) {
+    super(message);
+  }
+}
