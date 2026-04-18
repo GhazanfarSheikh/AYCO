@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 
 import { HeatTier } from "@/components/heat/HeatTier";
+import { Section } from "@/components/layout/Section";
 import { getHeat } from "@/features/catalog/api";
 
 export const metadata: Metadata = {
@@ -20,36 +21,18 @@ export default async function HeatPage() {
     heat.tiers.find((tier) => tier.tier === "warming")?.items ?? [];
 
   return (
-    <section className="space-y-8">
-      <div className="section-heading">
-        <p className="eyebrow">Heat</p>
-        <h1 className="font-[var(--font-heading)] text-[var(--text-h1)] font-bold">
-          What's On Heat right now.
-        </h1>
-        <p className="text-[var(--ayco-text-secondary)]">
-          The most grabbed, most vaulted, and most talked-about products across
-          AYCO.
-        </p>
-        <div className="topline-gradient h-0.5 w-full rounded-full" />
+    <Section
+      className="pt-0"
+      description="Heat ranks what is actually moving across grabs, saves, and student attention. Each tier stays full-width and readable instead of reserving space for unfinished decoration."
+      eyebrow="Heat"
+      title="What&apos;s on Heat right now"
+      useContainer={false}
+    >
+      <div className="space-y-10">
+        <HeatTier products={blazing} title="Blazing" tone="amber" />
+        <HeatTier products={heatingUp} title="Heating Up" tone="cyan" />
+        <HeatTier products={warming} title="Warming" tone="indigo" />
       </div>
-      <HeatTier
-        color="var(--ayco-brand-coral)"
-        products={blazing}
-        title="Blazing"
-        tone="amber"
-      />
-      <HeatTier
-        color="var(--ayco-brand-amber)"
-        products={heatingUp}
-        title="Heating Up"
-        tone="cyan"
-      />
-      <HeatTier
-        color="var(--ayco-brand-indigo)"
-        products={warming}
-        title="Warming"
-        tone="indigo"
-      />
-    </section>
+    </Section>
   );
 }

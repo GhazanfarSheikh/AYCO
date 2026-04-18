@@ -23,6 +23,7 @@ export function toZoneViewModel(zone: ZoneSummary): Zone {
     description: zone.description ?? fallback?.description ?? "",
     icon: zone.iconKey ?? fallback?.icon ?? "PackageOpen",
     name: zone.name,
+    productCount: zone.productCount,
     slug: zone.slug as ZoneSlug,
   };
 }

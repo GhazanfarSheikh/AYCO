@@ -26,9 +26,9 @@ export function Navbar() {
   return (
     <header
       className={cn(
-        "sticky top-0 z-30 border-b border-white/6 bg-[rgba(8,8,13,0.72)] backdrop-blur-xl transition duration-300 md:top-3 md:mx-3 md:rounded-full md:border",
+        "sticky top-0 z-30 border-b border-[var(--border-subtle)] bg-[rgba(7,11,20,0.82)] backdrop-blur-xl transition duration-300 lg:top-3 lg:mx-3 lg:rounded-full lg:border",
         direction === "down"
-          ? "-translate-y-full md:-translate-y-3"
+          ? "-translate-y-full lg:-translate-y-3"
           : "translate-y-0",
       )}
     >
@@ -43,12 +43,12 @@ export function Navbar() {
           {examMode ? <Badge tone="indigo">Exam Mode</Badge> : null}
         </div>
 
-        <nav className="hidden items-center gap-4 text-sm text-[var(--ayco-text-secondary)] md:flex">
+        <nav className="hidden items-center gap-5 text-sm text-[var(--text-body)] lg:flex">
           {NAV_LINKS.map((link) => (
             <Link
               className={cn(
-                "transition hover:text-[var(--ayco-text-primary)]",
-                pathname === link.href && "text-[var(--ayco-text-primary)]",
+                "transition hover:text-[var(--text-strong)]",
+                pathname === link.href && "text-[var(--text-strong)]",
               )}
               href={link.href}
               key={link.href}
@@ -60,33 +60,33 @@ export function Navbar() {
 
         <div className="flex items-center gap-2">
           <button
-            className="hidden min-w-56 items-center gap-3 rounded-full border border-white/10 bg-white/5 px-4 py-3 text-left text-sm text-[var(--ayco-text-muted)] md:flex"
+            className="hidden min-w-64 items-center gap-3 rounded-full border border-[var(--border-subtle)] bg-white/5 px-4 py-3 text-left text-sm text-[var(--text-muted)] lg:flex"
             onClick={openScout}
             type="button"
           >
             <Sparkles className="size-4 text-[var(--ayco-brand-cyan)]" />
-            Scout anything...
+            Search dorm, tech, study gear...
           </button>
-          <Button className="md:hidden" onClick={openScout} variant="ghost">
+          <Button className="lg:hidden" onClick={openScout} variant="ghost">
             Scout
           </Button>
           <Link
             aria-label="Your Vault"
-            className="hidden rounded-full border border-white/10 p-3 text-[var(--ayco-text-secondary)] md:inline-flex"
+            className="hidden rounded-full border border-[var(--border-subtle)] p-3 text-[var(--text-body)] lg:inline-flex"
             href="/vault"
           >
             <Heart className="size-4" />
           </Link>
           <button
             aria-label="Pings"
-            className="rounded-full border border-white/10 p-3 text-[var(--ayco-text-secondary)]"
+            className="rounded-full border border-[var(--border-subtle)] p-3 text-[var(--text-body)]"
             type="button"
           >
             <Bell className="size-4" />
           </button>
           <button
             aria-label={`Your Stash (${items.length})`}
-            className="relative rounded-full border border-white/10 p-3 text-[var(--ayco-text-secondary)]"
+            className="relative rounded-full border border-[var(--border-subtle)] p-3 text-[var(--text-body)]"
             onClick={openStash}
             type="button"
           >

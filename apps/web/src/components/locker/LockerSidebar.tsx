@@ -34,15 +34,16 @@ export function LockerSidebar() {
   return (
     <div className="space-y-6">
       <div className="space-y-4">
-        <div className="flex size-16 items-center justify-center rounded-full border border-white/10 bg-[var(--ayco-brand-indigo-muted)] font-[var(--font-heading)] text-2xl font-bold">
+        <div className="flex size-16 items-center justify-center rounded-full border border-[var(--border-subtle)] bg-[var(--ayco-brand-indigo-muted)] font-[var(--font-heading)] text-2xl font-bold">
           {profile.firstName.charAt(0)}
         </div>
         <div className="space-y-2">
-          <p className="font-[var(--font-heading)] text-2xl font-bold">
+          <p className="font-[var(--font-heading)] text-2xl font-bold text-[var(--text-strong)]">
             {profile.firstName}
           </p>
-          <p className="text-sm text-[var(--ayco-text-secondary)]">
-            {profile.campus}
+          <p className="text-sm text-[var(--text-body)]">{profile.campus}</p>
+          <p className="text-sm text-[var(--text-muted)]">
+            Claims, Clout, and saved picks without the dashboard clutter.
           </p>
           <div className="flex flex-wrap items-center gap-2">
             <Badge tone="amber">
@@ -57,15 +58,18 @@ export function LockerSidebar() {
       <nav className="grid gap-2">
         {lockerLinks.map((link) => {
           const Icon = link.icon;
-          const active = pathname === link.href;
+          const active =
+            link.href === "/locker"
+              ? pathname === link.href
+              : pathname === link.href || pathname.startsWith(`${link.href}/`);
 
           return (
             <Link
               className={cn(
-                "flex items-center gap-3 rounded-[var(--radius-md)] px-4 py-3 text-sm transition",
+                "flex min-h-11 items-center gap-3 rounded-[var(--radius-md)] px-4 py-3 text-sm transition",
                 active
-                  ? "bg-[var(--ayco-brand-indigo)] text-white"
-                  : "text-[var(--ayco-text-secondary)] hover:bg-white/5 hover:text-[var(--ayco-text-primary)]",
+                  ? "bg-[var(--brand-500)] text-white"
+                  : "text-[var(--text-body)] hover:bg-white/5 hover:text-[var(--text-strong)]",
               )}
               href={link.href}
               key={link.href}

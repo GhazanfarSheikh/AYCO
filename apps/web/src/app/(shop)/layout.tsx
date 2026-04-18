@@ -1,3 +1,4 @@
+import { Container } from "@/components/layout/Container";
 import { Footer } from "@/components/layout/Footer";
 import { MobileNav } from "@/components/layout/MobileNav";
 import { Navbar } from "@/components/layout/Navbar";
@@ -11,8 +12,8 @@ export default function ShopLayout({
   return (
     <>
       <Navbar />
-      <main className="page-shell py-8" id="main-content">
-        {children}
+      <main id="main-content">
+        <Container className="py-8 sm:py-10 lg:py-14">{children}</Container>
       </main>
       <Footer />
       <MobileNav />

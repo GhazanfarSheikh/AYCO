@@ -17,14 +17,18 @@ export function LockerMobileNav() {
   const pathname = usePathname();
 
   return (
-    <nav className="flex gap-2 overflow-x-auto pb-1 lg:hidden">
+    <nav className="scrollbar-none flex gap-2 overflow-x-auto pb-1 xl:hidden">
       {lockerLinks.map((link) => (
         <Link
           className={cn(
-            "whitespace-nowrap rounded-full border border-white/10 px-4 py-2 text-sm transition",
-            pathname === link.href
-              ? "bg-[var(--ayco-brand-indigo)] text-white"
-              : "bg-white/5 text-[var(--ayco-text-secondary)]",
+            "min-h-11 whitespace-nowrap rounded-full border border-[var(--border-subtle)] px-4 py-2 text-sm transition",
+            (
+              link.href === "/locker"
+                ? pathname === link.href
+                : pathname === link.href || pathname.startsWith(`${link.href}/`)
+            )
+              ? "bg-[var(--brand-500)] text-white"
+              : "bg-white/5 text-[var(--text-body)]",
           )}
           href={link.href}
           key={link.href}

@@ -13,11 +13,15 @@ export function PicksCarousel({
     <section className="space-y-5">
       <div className="section-heading">
         <p className="eyebrow">Picks</p>
-        <h2 className="font-[var(--font-heading)] text-[var(--text-h2)] font-bold">
+        <h2 className="font-[var(--font-heading)] text-[var(--text-h2)] font-bold text-[var(--text-strong)]">
           {title}
         </h2>
+        <p className="max-w-2xl text-sm text-[var(--text-body)]">
+          Curated to feel like useful recommendations, not filler between bigger
+          sections.
+        </p>
       </div>
-      <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-4">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
         {products.map((product) => (
           <ProductCard key={product.id} product={product} />
         ))}

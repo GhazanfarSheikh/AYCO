@@ -35,11 +35,15 @@ export function CampusHeat({
     <section className="space-y-5">
       <div className="section-heading">
         <p className="eyebrow">Campus Heat</p>
-        <h2 className="font-[var(--font-heading)] text-[var(--text-h2)] font-bold">
+        <h2 className="font-[var(--font-heading)] text-[var(--text-h2)] font-bold text-[var(--text-strong)]">
           On Heat at {campus}
         </h2>
+        <p className="max-w-2xl text-sm text-[var(--text-body)]">
+          Local signals are easier to trust when the layout stays disciplined
+          and the cards carry the information cleanly.
+        </p>
       </div>
-      <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-4">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
         {campusProducts.slice(0, 4).map((product) => (
           <ProductCard key={product.id} product={product} />
         ))}

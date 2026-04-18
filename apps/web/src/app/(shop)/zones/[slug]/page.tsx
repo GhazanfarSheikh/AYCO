@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
+import { Section } from "@/components/layout/Section";
 import { ZoneExplorer } from "@/components/zones/ZoneExplorer";
 import { ZonePills } from "@/components/zones/ZonePills";
 import { getZoneDetail } from "@/features/catalog/api";
@@ -42,18 +43,15 @@ export default async function ZonePage({ params }: ZonePageProps) {
   }
 
   return (
-    <section className="space-y-8">
-      <div className="section-heading">
-        <p className="eyebrow">{zoneDetail.zone.name} Zone</p>
-        <h1 className="font-[var(--font-heading)] text-[var(--text-h1)] font-bold">
-          {zoneDetail.zone.description}
-        </h1>
-        <p className="text-sm text-[var(--ayco-text-secondary)]">
-          {zoneDetail.zone.productCount ?? 0} products ready to dial in.
-        </p>
-      </div>
+    <Section
+      className="pt-0"
+      description={`${zoneDetail.zone.productCount ?? 0} products ready to dial in, with filters that stay in flow instead of fighting the layout.`}
+      eyebrow={`${zoneDetail.zone.name} Zone`}
+      title={zoneDetail.zone.description}
+      useContainer={false}
+    >
       <ZonePills active={slug} />
       <ZoneExplorer zone={slug} />
-    </section>
+    </Section>
   );
 }

@@ -1,233 +1,215 @@
-import { ArrowRight, Flame, TimerReset, Zap } from "lucide-react";
+import { ArrowRight, Flame, ShieldCheck, TimerReset, Zap } from "lucide-react";
 import Link from "next/link";
 
+import { Container } from "@/components/layout/Container";
 import { Footer } from "@/components/layout/Footer";
 import { MobileNav } from "@/components/layout/MobileNav";
 import { Navbar } from "@/components/layout/Navbar";
-import { CampusHeat } from "@/components/picks/CampusHeat";
-import { SemesterPicks } from "@/components/picks/SemesterPicks";
+import { Section } from "@/components/layout/Section";
 import { ProductCard } from "@/components/product/ProductCard";
 import { ReceiptCard } from "@/components/receipts/ReceiptCard";
 import { buttonStyles } from "@/components/ui/Button";
 import { ZoneCard } from "@/components/zones/ZoneCard";
-import {
-  getHeat,
-  getProducts,
-  getSteals,
-  getZones,
-} from "@/features/catalog/api";
-import { withIndex } from "@/lib/keys";
+import { getHeat, getProducts, getZones } from "@/features/catalog/api";
 import { receipts } from "@/lib/mock-data";
 
 export const dynamic = "force-dynamic";
 
 export default async function HomePage() {
-  const [zones, heat, steals, semesterPicks] = await Promise.all([
+  const [zones, heat, featuredProducts] = await Promise.all([
     getZones(),
-    getHeat({ limit: 6 }),
-    getSteals({ limit: 4 }),
+    getHeat({ limit: 8 }),
     getProducts({ limit: 4, sort: "heat" }),
   ]);
-  const heatProducts = heat.tiers.flatMap((tier) => tier.items).slice(0, 6);
-  const stealProducts = steals.items.slice(0, 4);
-  const campusHeatProducts = heat.tiers
-    .flatMap((tier) => tier.items)
-    .slice(0, 4);
-  const semesterPickProducts = semesterPicks.items.slice(0, 4);
+  const heatProducts = heat.tiers.flatMap((tier) => tier.items).slice(0, 4);
+  const heroProduct = featuredProducts.items[0] ?? heatProducts[0];
 
   return (
     <>
       <Navbar />
       <main id="main-content">
-        <section className="hero-mesh relative overflow-hidden">
-          <div className="page-shell grid min-h-[100svh] items-center gap-12 py-20 lg:grid-cols-[1.05fr,0.95fr]">
-            <div className="relative z-10 space-y-8">
-              <div className="space-y-4">
-                <p className="eyebrow">All You Can Order</p>
-                <h1
-                  className="max-w-3xl font-[var(--font-heading)] font-bold leading-[0.95]"
-                  style={{ fontSize: "var(--text-hero)" }}
-                >
-                  Everything a student needs. In one place.
-                </h1>
-                <p className="max-w-2xl text-lg text-[var(--ayco-text-secondary)]">
-                  We built AYCO around campus life, budget limits, semester
-                  chaos, and the need to get the right thing fast.
-                </p>
-              </div>
-              <div className="flex flex-wrap gap-4">
-                <Link className={buttonStyles()} href="/zones">
-                  Start Scouting
-                </Link>
-                <Link
-                  className={buttonStyles({ variant: "ghost" })}
-                  href="/zones"
-                >
-                  Browse Zones
-                </Link>
-              </div>
-              <div className="flex flex-wrap gap-4 text-sm text-[var(--ayco-text-secondary)]">
-                <span className="flex items-center gap-2">
-                  <Zap className="size-4 text-[var(--ayco-brand-cyan)]" />
-                  Fast Dispatch
-                </span>
-                <span className="flex items-center gap-2">
-                  <TimerReset className="size-4 text-[var(--ayco-brand-lime)]" />
-                  Daily Steals
-                </span>
-                <span className="flex items-center gap-2">
-                  <Flame className="size-4 text-[var(--ayco-brand-amber)]" />
-                  Campus Heat
-                </span>
-              </div>
-            </div>
-
-            <div className="grid gap-5 sm:grid-cols-2">
-              {heatProducts.slice(0, 4).map((product, index) => (
-                <div
-                  className={index % 2 === 1 ? "translate-y-8" : ""}
-                  key={product.id}
-                  style={{
-                    animation: `ayco-float ${4 + index}s ease-in-out infinite`,
-                  }}
-                >
-                  <ProductCard priority={index < 2} product={product} />
+        <section className="hero-mesh relative overflow-hidden section-space">
+          <Container>
+            <div className="grid items-center gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(340px,460px)] lg:gap-14">
+              <div className="space-y-8">
+                <div className="space-y-4">
+                  <p className="eyebrow">All You Can Order</p>
+                  <h1 className="hero-title max-w-3xl font-[var(--font-heading)] font-bold text-[var(--text-strong)]">
+                    Student shopping that feels sharp, fast, and believable.
+                  </h1>
+                  <p className="max-w-2xl text-base leading-7 text-[var(--text-body)] sm:text-lg">
+                    AYCO turns campus essentials into a cleaner flow: browse by
+                    zone, catch what&apos;s on Heat, and save the good stuff in
+                    your Locker before the semester gets noisy.
+                  </p>
                 </div>
-              ))}
-            </div>
-          </div>
-        </section>
+                <div className="flex flex-wrap gap-4">
+                  <Link className={buttonStyles()} href="/zones">
+                    Start Scouting
+                  </Link>
+                  <Link
+                    className={buttonStyles({ variant: "ghost" })}
+                    href="/heat"
+                  >
+                    See What&apos;s on Heat
+                  </Link>
+                </div>
+                <div className="grid gap-3 text-sm text-[var(--text-body)] sm:grid-cols-3">
+                  <div className="surface-panel rounded-[var(--radius-md)] p-4">
+                    <div className="flex items-center gap-2 text-[var(--accent-cyan)]">
+                      <Zap className="size-4" />
+                      Fast Dispatch
+                    </div>
+                    <p className="mt-2 text-[var(--text-muted)]">
+                      Built for dorm timelines, not warehouse vibes.
+                    </p>
+                  </div>
+                  <div className="surface-panel rounded-[var(--radius-md)] p-4">
+                    <div className="flex items-center gap-2 text-[var(--accent-amber)]">
+                      <Flame className="size-4" />
+                      Campus Heat
+                    </div>
+                    <p className="mt-2 text-[var(--text-muted)]">
+                      See what students are actually grabbing right now.
+                    </p>
+                  </div>
+                  <div className="surface-panel rounded-[var(--radius-md)] p-4">
+                    <div className="flex items-center gap-2 text-[var(--accent-lime)]">
+                      <ShieldCheck className="size-4" />
+                      Better Trust
+                    </div>
+                    <p className="mt-2 text-[var(--text-muted)]">
+                      Cleaner cards, honest pricing, and stronger hierarchy.
+                    </p>
+                  </div>
+                </div>
+              </div>
 
-        <section className="overflow-hidden border-y border-white/6 py-6">
-          <div className="marquee-track flex gap-5">
-            {[...heatProducts, ...heatProducts].map((product, index) => (
-              <div
-                className="flex min-w-64 items-center gap-4 rounded-full border border-white/10 bg-white/5 px-5 py-3"
-                key={withIndex(product.id, index, "heat")}
-              >
-                <span className="font-medium">{product.name}</span>
-                <span className="font-mono text-sm text-[var(--ayco-brand-lime)]">
-                  ${product.price}
-                </span>
-                <span className="text-xs uppercase tracking-[0.14em] text-[var(--ayco-brand-amber)]">
+              <div className="space-y-4">
+                <div className="surface-panel rounded-[var(--radius-xl)] p-4 sm:p-5">
+                  {heroProduct ? (
+                    <ProductCard priority product={heroProduct} />
+                  ) : (
+                    <div className="rounded-[var(--radius-lg)] border border-[var(--border-subtle)] bg-[var(--bg-surface)] p-8">
+                      <p className="text-[var(--text-body)]">
+                        The featured lineup is warming up right now.
+                      </p>
+                    </div>
+                  )}
+                </div>
+                <div className="grid gap-3 sm:grid-cols-2">
+                  <div className="rounded-[var(--radius-md)] border border-[var(--border-subtle)] bg-white/5 p-4">
+                    <p className="text-xs uppercase tracking-[0.16em] text-[var(--text-muted)]">
+                      Featured Focus
+                    </p>
+                    <p className="mt-2 text-sm text-[var(--text-body)]">
+                      One strong visual, real product context, and no floating
+                      filler cards.
+                    </p>
+                  </div>
+                  <div className="rounded-[var(--radius-md)] border border-[var(--border-subtle)] bg-white/5 p-4">
+                    <p className="text-xs uppercase tracking-[0.16em] text-[var(--text-muted)]">
+                      Daily Motion
+                    </p>
+                    <p className="mt-2 flex items-center gap-2 text-sm text-[var(--text-body)]">
+                      <TimerReset className="size-4 text-[var(--accent-lime)]" />
+                      New steals rotate every 24 hours without fake pricing
+                      claims.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="scrollbar-none mt-10 flex gap-3 overflow-x-auto pb-2 snap-x snap-mandatory">
+              {heatProducts.map((product) => (
+                <Link
+                  className="snap-start whitespace-nowrap rounded-full border border-[var(--border-subtle)] bg-white/5 px-4 py-2 text-sm text-[var(--text-body)] transition hover:bg-white/10"
+                  href={`/product/${product.id}`}
+                  key={product.id}
+                >
+                  {product.name} · ${product.price.toFixed(2)} ·{" "}
                   {product.heatScore} Heat
-                </span>
-              </div>
-            ))}
-          </div>
+                </Link>
+              ))}
+            </div>
+          </Container>
         </section>
 
-        <section className="page-shell space-y-16 py-16 md:py-24">
-          <section className="space-y-6" id="zones">
-            <div className="section-heading">
-              <p className="eyebrow">Browse Zones</p>
-              <h2 className="font-[var(--font-heading)] text-[var(--text-h2)] font-bold">
-                Six zones. Zero generic shopping energy.
-              </h2>
-            </div>
-            <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
-              {zones.map((zone) => (
-                <ZoneCard key={zone.slug} zone={zone} />
-              ))}
-            </div>
-          </section>
-
-          <section className="overflow-hidden rounded-[32px] border border-[var(--ayco-brand-lime)]/25 bg-[linear-gradient(135deg,rgba(180,255,58,0.16),rgba(17,17,24,0.92))] p-6 md:p-8">
-            <div className="mb-8 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
-              <div className="space-y-3">
-                <p className="eyebrow !text-[var(--ayco-brand-lime)]">Steals</p>
-                <h2 className="font-[var(--font-heading)] text-[var(--text-h2)] font-bold">
-                  Under $20 and moving fast.
-                </h2>
-                <p className="max-w-xl text-sm text-[var(--ayco-text-secondary)]">
-                  Today's Steals rotate daily, so if it feels like a hookup,
-                  that’s because it is.
-                </p>
-              </div>
-              <Link
-                className={buttonStyles({ variant: "lime" })}
-                href="/steals"
-              >
-                See all Steals
-              </Link>
-            </div>
-            <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-4">
-              {stealProducts.map((product) => (
-                <ProductCard key={product.id} product={product} />
-              ))}
-            </div>
-          </section>
-
-          <section className="space-y-6">
-            <div className="section-heading">
-              <p className="eyebrow">Receipts</p>
-              <h2 className="font-[var(--font-heading)] text-[var(--text-h2)] font-bold">
-                Real student receipts, not recycled marketing copy.
-              </h2>
-            </div>
-            <div className="grid gap-5 lg:grid-cols-3">
-              {receipts.map((receipt) => (
-                <ReceiptCard key={receipt.id} receipt={receipt} />
-              ))}
-            </div>
-          </section>
-
-          <section className="grid gap-5 md:grid-cols-2 xl:grid-cols-4">
-            {[
-              {
-                body: "Same-week motion on the stuff you actually need this semester.",
-                title: "Fast Dispatch",
-              },
-              {
-                body: "Flip the switch and we rerank the feed around study survival.",
-                title: "Exam Mode",
-              },
-              {
-                body: "Campus Heat makes your picks feel local instead of random.",
-                title: "Campus Picks",
-              },
-              {
-                body: "Earn Clout every time you Claim, then turn it into Hookups.",
-                title: "Clout Rewards",
-              },
-            ].map((feature) => (
-              <article
-                className="glass-panel rounded-[var(--radius-xl)] p-6"
-                key={feature.title}
-              >
-                <h3 className="mb-3 font-[var(--font-heading)] text-2xl font-bold">
-                  {feature.title}
-                </h3>
-                <p className="text-sm leading-7 text-[var(--ayco-text-secondary)]">
-                  {feature.body}
-                </p>
-              </article>
+        <Section
+          description="AYCO works best when the catalog feels predictable. Start with a zone, then narrow into the products that actually fit the semester."
+          eyebrow="Browse Zones"
+          title="Six zones with real entry points, not random category noise."
+        >
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
+            {zones.map((zone) => (
+              <ZoneCard key={zone.slug} zone={zone} />
             ))}
-          </section>
+          </div>
+        </Section>
 
-          <CampusHeat initialProducts={campusHeatProducts} />
-          <SemesterPicks initialProducts={semesterPickProducts} />
+        <Section
+          description="The most grabbed, most saved, and most talked-about products across AYCO right now."
+          eyebrow="Heat"
+          title="Featured products with a clearer sense of urgency."
+        >
+          <div className="mb-6 flex items-center justify-between gap-4">
+            <p className="text-sm text-[var(--text-muted)]">
+              Heat shows what&apos;s moving, without turning the whole page into
+              one giant glow effect.
+            </p>
+            <Link
+              className="text-sm font-medium text-[var(--accent-cyan)]"
+              href="/heat"
+            >
+              View all Heat
+            </Link>
+          </div>
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
+            {heatProducts.map((product, index) => (
+              <ProductCard
+                key={product.id}
+                priority={index === 0}
+                product={product}
+              />
+            ))}
+          </div>
+        </Section>
 
-          <section className="overflow-hidden rounded-[32px] border border-white/10 bg-[var(--ayco-gradient-hero)] p-8 text-[var(--ayco-text-inverse)] md:p-12">
-            <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
-              <div className="space-y-3">
-                <p className="eyebrow !text-[var(--ayco-text-inverse)]/70">
-                  Ready to Grab?
-                </p>
-                <h2 className="font-[var(--font-heading)] text-[var(--text-h2)] font-bold">
-                  Build your Stash before the semester builds your stress.
+        <Section
+          description="The commerce layer feels more trustworthy when the social proof feels grounded and specific."
+          eyebrow="Receipts"
+          title="Real student receipts, not overworked marketing filler."
+        >
+          <div className="grid gap-5 lg:grid-cols-3">
+            {receipts.map((receipt) => (
+              <ReceiptCard key={receipt.id} receipt={receipt} />
+            ))}
+          </div>
+        </Section>
+
+        <Section className="pt-0">
+          <div className="overflow-hidden rounded-[var(--radius-xl)] border border-[var(--border-subtle)] bg-[linear-gradient(135deg,rgba(109,94,252,0.16),rgba(15,21,35,0.92))] p-8 shadow-[var(--shadow-card)] md:p-10">
+            <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-end">
+              <div className="space-y-4">
+                <p className="eyebrow !text-white/70">My Locker</p>
+                <h2 className="font-[var(--font-heading)] text-[var(--text-h2)] font-bold text-white">
+                  Keep Claims, Clout, and saved picks in one calmer place.
                 </h2>
+                <p className="max-w-2xl text-sm leading-7 text-white/78 sm:text-base">
+                  The Locker now reads like a member space instead of a broken
+                  dashboard: cleaner stats, better flow, and clearer next steps.
+                </p>
               </div>
               <Link
-                className="inline-flex items-center gap-2 rounded-full bg-[var(--ayco-text-inverse)] px-5 py-3 font-medium text-[var(--ayco-bg-primary)]"
-                href="/zones"
+                className="inline-flex min-h-11 items-center gap-2 rounded-full bg-white px-5 py-3 font-medium text-[var(--text-inverse)]"
+                href="/locker"
               >
-                Get Started
+                Open My Locker
                 <ArrowRight className="size-4" />
               </Link>
             </div>
-          </section>
-        </section>
+          </div>
+        </Section>
       </main>
       <Footer />
       <MobileNav />

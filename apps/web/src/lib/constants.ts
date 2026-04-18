@@ -1,11 +1,11 @@
 import type { Zone } from "@/types/product";
 
 export const NAV_LINKS = [
-  { href: "/", label: "Base" },
+  { href: "/", label: "Home" },
   { href: "/zones", label: "Zones" },
   { href: "/heat", label: "Heat" },
   { href: "/steals", label: "Steals" },
-  { href: "/locker", label: "Locker" },
+  { href: "/locker", label: "My Locker" },
 ] as const;
 
 export const SORT_OPTIONS = [

@@ -4,54 +4,85 @@
 @config "../../tailwind.config.ts";
 
 :root {
-  --ayco-bg-primary: #08080d;
-  --ayco-bg-secondary: #111118;
-  --ayco-bg-elevated: #1a1a24;
-  --ayco-bg-hover: #1e1e2a;
-  --ayco-bg-glass: rgba(255, 255, 255, 0.04);
-  --ayco-bg-glass-hover: rgba(255, 255, 255, 0.07);
-  --ayco-bg-glass-border: rgba(255, 255, 255, 0.08);
-  --ayco-bg-glass-border-hover: rgba(255, 255, 255, 0.14);
+  --bg-canvas: #070b14;
+  --bg-surface: #0f1523;
+  --bg-elevated: #151d2f;
+  --bg-muted: #1b2438;
 
-  --ayco-brand-indigo: #6c3fff;
-  --ayco-brand-indigo-hover: #7b52ff;
-  --ayco-brand-indigo-muted: rgba(108, 63, 255, 0.15);
-  --ayco-brand-cyan: #00d4ff;
-  --ayco-brand-cyan-muted: rgba(0, 212, 255, 0.12);
-  --ayco-brand-lime: #b4ff3a;
-  --ayco-brand-lime-muted: rgba(180, 255, 58, 0.12);
-  --ayco-brand-coral: #ff5c5c;
-  --ayco-brand-coral-muted: rgba(255, 92, 92, 0.12);
-  --ayco-brand-amber: #ffb83a;
-  --ayco-brand-amber-muted: rgba(255, 184, 58, 0.12);
+  --border-subtle: rgba(255, 255, 255, 0.08);
+  --border-strong: rgba(255, 255, 255, 0.14);
 
-  --ayco-text-primary: #f5f5f7;
-  --ayco-text-secondary: #9a9ab0;
-  --ayco-text-muted: #5a5a72;
-  --ayco-text-inverse: #08080d;
+  --text-strong: #f7f9fc;
+  --text-body: #c8d2e1;
+  --text-muted: #8d98ab;
+  --text-inverse: #070b14;
 
-  --ayco-gradient-hero: linear-gradient(
-    135deg,
-    #6c3fff 0%,
-    #00d4ff 50%,
-    #b4ff3a 100%
-  );
+  --brand-500: #6d5efc;
+  --brand-600: #5d4ff0;
+  --brand-700: #4f41d6;
+
+  --accent-cyan: #22d3ee;
+  --accent-amber: #f59e0b;
+  --accent-lime: #84cc16;
+  --accent-rose: #fb7185;
+
+  --success: #22c55e;
+  --warning: #f59e0b;
+  --danger: #ef4444;
+
+  --radius-sm: 12px;
+  --radius-md: 18px;
+  --radius-lg: 24px;
+  --radius-xl: 32px;
+  --radius-full: 9999px;
+
+  --shadow-card: 0 10px 30px rgba(0, 0, 0, 0.25);
+  --shadow-soft: 0 6px 20px rgba(0, 0, 0, 0.18);
+  --shadow-button: 0 8px 18px rgba(109, 94, 252, 0.22);
+
+  --ayco-bg-primary: var(--bg-canvas);
+  --ayco-bg-secondary: var(--bg-surface);
+  --ayco-bg-elevated: var(--bg-elevated);
+  --ayco-bg-hover: var(--bg-muted);
+  --ayco-bg-glass: rgba(15, 21, 35, 0.88);
+  --ayco-bg-glass-hover: rgba(21, 29, 47, 0.96);
+  --ayco-bg-glass-border: var(--border-subtle);
+  --ayco-bg-glass-border-hover: var(--border-strong);
+
+  --ayco-brand-indigo: var(--brand-500);
+  --ayco-brand-indigo-hover: var(--brand-600);
+  --ayco-brand-indigo-muted: rgba(109, 94, 252, 0.16);
+  --ayco-brand-cyan: var(--accent-cyan);
+  --ayco-brand-cyan-muted: rgba(34, 211, 238, 0.12);
+  --ayco-brand-lime: var(--accent-lime);
+  --ayco-brand-lime-muted: rgba(132, 204, 22, 0.14);
+  --ayco-brand-coral: var(--accent-rose);
+  --ayco-brand-coral-muted: rgba(251, 113, 133, 0.14);
+  --ayco-brand-amber: var(--accent-amber);
+  --ayco-brand-amber-muted: rgba(245, 158, 11, 0.14);
+
+  --ayco-text-primary: var(--text-strong);
+  --ayco-text-secondary: var(--text-body);
+  --ayco-text-muted: var(--text-muted);
+  --ayco-text-inverse: var(--text-inverse);
+
+  --ayco-gradient-hero: linear-gradient(135deg, #6d5efc 0%, #22d3ee 100%);
   --ayco-gradient-card: linear-gradient(
     180deg,
-    rgba(108, 63, 255, 0.12) 0%,
+    rgba(109, 94, 252, 0.08) 0%,
     transparent 100%
   );
-  --ayco-gradient-heat: linear-gradient(135deg, #ff5c5c 0%, #ffb83a 100%);
-  --ayco-gradient-steal: linear-gradient(135deg, #b4ff3a 0%, #00d4ff 100%);
+  --ayco-gradient-heat: linear-gradient(135deg, #f59e0b 0%, #fb7185 100%);
+  --ayco-gradient-steal: linear-gradient(135deg, #84cc16 0%, #22d3ee 100%);
   --ayco-gradient-glass: linear-gradient(
-    135deg,
-    rgba(255, 255, 255, 0.06) 0%,
-    rgba(255, 255, 255, 0.02) 100%
+    180deg,
+    rgba(255, 255, 255, 0.02) 0%,
+    rgba(255, 255, 255, 0.01) 100%
   );
-  --ayco-glow-indigo: 0 0 40px rgba(108, 63, 255, 0.3);
-  --ayco-glow-cyan: 0 0 30px rgba(0, 212, 255, 0.25);
-  --ayco-glow-lime: 0 0 30px rgba(180, 255, 58, 0.2);
-  --ayco-glow-heat: 0 0 20px rgba(255, 92, 92, 0.3);
+  --ayco-glow-indigo: 0 18px 36px rgba(109, 94, 252, 0.24);
+  --ayco-glow-cyan: 0 12px 24px rgba(34, 211, 238, 0.16);
+  --ayco-glow-lime: 0 12px 24px rgba(132, 204, 22, 0.16);
+  --ayco-glow-heat: 0 12px 24px rgba(245, 158, 11, 0.16);
 
   --text-hero: clamp(2.5rem, 5vw + 1rem, 4.5rem);
   --text-display: clamp(2rem, 4vw + 0.5rem, 3.5rem);
@@ -81,12 +112,8 @@
   --space-24: 96px;
   --space-32: 128px;
 
-  --radius-xs: 6px;
-  --radius-sm: 8px;
-  --radius-md: 12px;
-  --radius-lg: 16px;
-  --radius-xl: 24px;
-  --radius-2xl: 32px;
+  --radius-xs: 8px;
+  --radius-2xl: 40px;
   --radius-full: 9999px;
 
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
@@ -117,18 +144,18 @@
 }
 
 [data-theme="light"] {
-  --ayco-bg-primary: #fafafa;
-  --ayco-bg-secondary: #ffffff;
-  --ayco-bg-elevated: #f0f2ff;
-  --ayco-bg-hover: #eef1ff;
-  --ayco-bg-glass: rgba(17, 17, 24, 0.04);
-  --ayco-bg-glass-hover: rgba(17, 17, 24, 0.06);
-  --ayco-bg-glass-border: rgba(17, 17, 24, 0.08);
-  --ayco-bg-glass-border-hover: rgba(17, 17, 24, 0.14);
-  --ayco-text-primary: #111118;
-  --ayco-text-secondary: #5a5a72;
-  --ayco-text-muted: #76768b;
-  --ayco-text-inverse: #fafafa;
+  --bg-canvas: #f4f7fb;
+  --bg-surface: #ffffff;
+  --bg-elevated: #eef2f9;
+  --bg-muted: #dde5f2;
+  --border-subtle: rgba(15, 21, 35, 0.08);
+  --border-strong: rgba(15, 21, 35, 0.16);
+  --text-strong: #101827;
+  --text-body: #334155;
+  --text-muted: #64748b;
+  --text-inverse: #f8fafc;
+  --ayco-bg-glass: rgba(255, 255, 255, 0.92);
+  --ayco-bg-glass-hover: rgba(255, 255, 255, 0.98);
 }
 
 * {
@@ -144,9 +171,10 @@ body {
   margin: 0;
   overflow-x: clip;
   background:
-    radial-gradient(circle at top, rgba(108, 63, 255, 0.16), transparent 28%),
-    radial-gradient(circle at 80% 20%, rgba(0, 212, 255, 0.12), transparent 30%),
-    var(--ayco-bg-primary);
+    radial-gradient(circle at top left, rgba(109, 94, 252, 0.14), transparent 28%),
+    radial-gradient(circle at 85% 10%, rgba(34, 211, 238, 0.08), transparent 24%),
+    radial-gradient(circle at 50% 100%, rgba(245, 158, 11, 0.06), transparent 24%),
+    var(--bg-canvas);
   color: var(--ayco-text-primary);
   font-family: var(--font-body);
   text-rendering: optimizeLegibility;
@@ -180,14 +208,17 @@ img {
 
 .page-shell {
   margin-inline: auto;
-  width: min(100% - 32px, 1400px);
+  width: min(100% - 32px, 1280px);
 }
 
 .glass-panel {
-  border: 1px solid var(--ayco-bg-glass-border);
-  background: var(--ayco-bg-glass);
+  border: 1px solid var(--border-subtle);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0)),
+    var(--ayco-bg-glass);
   backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
+  box-shadow: var(--shadow-soft);
   transition:
     background 200ms ease,
     border-color 200ms ease,
@@ -197,7 +228,15 @@ img {
 
 .glass-panel:hover {
   background: var(--ayco-bg-glass-hover);
-  border-color: var(--ayco-bg-glass-border-hover);
+  border-color: var(--border-strong);
+}
+
+.surface-panel {
+  border: 1px solid var(--border-subtle);
+  background:
+    radial-gradient(circle at top right, rgba(109, 94, 252, 0.08), transparent 32%),
+    var(--bg-surface);
+  box-shadow: var(--shadow-card);
 }
 
 .section-heading {
@@ -209,21 +248,16 @@ img {
 .eyebrow {
   font-family: var(--font-heading);
   font-size: var(--text-micro);
-  font-weight: 500;
-  letter-spacing: 0.16em;
+  font-weight: 600;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: var(--ayco-brand-cyan);
+  color: var(--accent-cyan);
 }
 
 .hero-mesh {
   background:
-    radial-gradient(
-      circle at 15% 20%,
-      rgba(108, 63, 255, 0.35),
-      transparent 24%
-    ),
-    radial-gradient(circle at 80% 10%, rgba(0, 212, 255, 0.28), transparent 24%),
-    radial-gradient(circle at 60% 80%, rgba(180, 255, 58, 0.2), transparent 28%);
+    radial-gradient(circle at 12% 18%, rgba(109, 94, 252, 0.24), transparent 24%),
+    radial-gradient(circle at 80% 8%, rgba(34, 211, 238, 0.18), transparent 22%);
 }
 
 .ayco-grid {
@@ -255,10 +289,10 @@ img {
 }
 
 .section-card {
-  border: 1px solid var(--ayco-bg-glass-border);
+  border: 1px solid var(--border-subtle);
   background:
     var(--ayco-gradient-card),
-    var(--ayco-bg-glass);
+    var(--bg-surface);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
 }
@@ -275,6 +309,24 @@ img {
     linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
   background-position: center;
   background-size: 24px 24px;
+}
+
+.section-space {
+  padding-block: clamp(2.5rem, 6vw, 6rem);
+}
+
+.hero-title {
+  font-size: clamp(2.25rem, 5vw, 5.5rem);
+  line-height: 0.95;
+}
+
+.scrollbar-none {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
 }
 
 @media (prefers-reduced-motion: reduce) {

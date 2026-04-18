@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+
+import { Section } from "@/components/layout/Section";
 import { ProductCard } from "@/components/product/ProductCard";
 import { CountdownTimer } from "@/components/steals/CountdownTimer";
 import { getSteals } from "@/features/catalog/api";
@@ -17,42 +19,49 @@ export default async function StealsPage() {
   const target = steals.endsAt ? new Date(steals.endsAt) : new Date();
 
   return (
-    <section className="space-y-8">
-      <div className="section-heading">
-        <p className="eyebrow">Steals</p>
-        <h1 className="font-[var(--font-heading)] text-[var(--text-h1)] font-bold">
-          Daily Steals worth checking before they bounce.
-        </h1>
-        <p className="text-[var(--ayco-text-secondary)]">
-          New deals drop every 24 hours. Grab them before the reset hits.
+    <Section
+      className="pt-0"
+      description="Steals rotate every 24 hours. This page now keeps the promise honest: time-based deals and fast movers, without claiming every item sits under the same price ceiling."
+      eyebrow="Steals"
+      title="Daily deals worth checking before they bounce."
+      useContainer={false}
+    >
+      <div className="mb-8 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+        <p className="max-w-2xl text-sm text-[var(--text-body)]">
+          New deals drop every day, and the lead item gets extra space instead
+          of forcing the whole section into a glowing promo box.
         </p>
         <CountdownTimer target={target} />
       </div>
 
       {featured ? (
-        <section className="overflow-hidden rounded-[32px] border border-white/10 bg-[var(--ayco-gradient-steal)] p-[1px]">
-          <div className="grid gap-6 rounded-[31px] bg-[var(--ayco-bg-primary)] p-6 lg:grid-cols-[1.05fr,0.95fr]">
+        <section className="mb-10 overflow-hidden rounded-[var(--radius-xl)] border border-[var(--border-subtle)] bg-[linear-gradient(135deg,rgba(132,204,22,0.12),rgba(15,21,35,0.92))] p-6 shadow-[var(--shadow-card)]">
+          <div className="grid gap-6 lg:grid-cols-[minmax(0,380px)_minmax(0,1fr)] lg:items-center">
             <ProductCard priority product={featured} />
-            <div className="flex flex-col justify-center gap-4">
-              <p className="eyebrow !text-[var(--ayco-brand-lime)]">
-                Steal Of The Day
+            <div className="space-y-4">
+              <p className="eyebrow !text-[var(--accent-lime)]">
+                Steal of the Day
               </p>
-              <h2 className="font-[var(--font-heading)] text-[var(--text-h2)] font-bold">
+              <h2 className="font-[var(--font-heading)] text-[var(--text-h2)] font-bold text-[var(--text-strong)]">
                 {featured.name}
               </h2>
-              <p className="max-w-xl text-[var(--ayco-text-secondary)]">
-                {featured.description}
+              <p className="max-w-2xl text-[var(--text-body)]">
+                {featured.description || featured.subtitle}
+              </p>
+              <p className="text-sm text-[var(--text-muted)]">
+                Featured for pace and value, not because the UI is trying to
+                oversell it.
               </p>
             </div>
           </div>
         </section>
       ) : null}
 
-      <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-4">
-        {steals.items.slice(1).map((product) => (
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-4">
+        {steals.items.slice(featured ? 1 : 0).map((product) => (
           <ProductCard key={product.id} product={product} />
         ))}
       </div>
-    </section>
+    </Section>
   );
 }

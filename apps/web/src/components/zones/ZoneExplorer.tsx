@@ -32,7 +32,7 @@ export function ZoneExplorer({ zone }: { zone: ZoneSlug }) {
   const items = query.data?.pages.flatMap((page) => page.items) ?? [];
 
   return (
-    <div className="grid gap-6 lg:grid-cols-[290px,1fr]">
+    <div className="grid gap-6 xl:grid-cols-[280px_minmax(0,1fr)]">
       <div className="lg:sticky lg:top-24 lg:self-start">
         <DialInPanel
           onHeatOnlyChange={setHeatOnly}
@@ -41,7 +41,7 @@ export function ZoneExplorer({ zone }: { zone: ZoneSlug }) {
         />
       </div>
       <div className="space-y-6">
-        <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 2xl:grid-cols-3">
           {items.map((product) => (
             <ProductCard key={product.id} product={product} />
           ))}
@@ -53,7 +53,7 @@ export function ZoneExplorer({ zone }: { zone: ZoneSlug }) {
         </div>
         <div className="flex justify-center py-6" ref={ref}>
           {query.isFetchingNextPage ? (
-            <div className="grid w-full gap-5 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
+            <div className="grid w-full grid-cols-1 gap-4 sm:grid-cols-2 2xl:grid-cols-3">
               {Array.from({ length: 4 }).map((_, index) => (
                 <ProductCardSkeleton key={index.toString()} />
               ))}

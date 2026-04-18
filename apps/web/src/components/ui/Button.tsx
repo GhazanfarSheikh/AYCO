@@ -8,12 +8,12 @@ type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
 
 const variantClasses: Record<NonNullable<ButtonProps["variant"]>, string> = {
   danger:
-    "bg-[var(--ayco-brand-coral)] text-[var(--ayco-text-primary)] hover:opacity-90",
+    "bg-[var(--danger)] text-[var(--text-strong)] shadow-[var(--shadow-soft)] hover:brightness-105",
   ghost:
-    "border border-white/10 bg-white/5 text-[var(--ayco-text-primary)] hover:border-[var(--ayco-brand-cyan)] hover:bg-[var(--ayco-bg-glass-hover)]",
-  lime: "bg-[var(--ayco-brand-lime)] text-[var(--ayco-text-inverse)] hover:brightness-105",
+    "border border-[var(--border-subtle)] bg-white/5 text-[var(--text-strong)] hover:border-[var(--accent-cyan)] hover:bg-white/8",
+  lime: "bg-[var(--accent-lime)] text-[var(--text-inverse)] shadow-[var(--shadow-soft)] hover:brightness-105",
   primary:
-    "bg-[var(--ayco-brand-indigo)] text-white shadow-[var(--ayco-glow-indigo)] hover:bg-[var(--ayco-brand-indigo-hover)]",
+    "bg-[var(--brand-500)] text-white shadow-[var(--shadow-button)] hover:bg-[var(--brand-600)]",
 };
 
 export function buttonStyles({

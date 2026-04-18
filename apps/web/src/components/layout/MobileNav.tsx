@@ -10,7 +10,7 @@ import { useUiStore } from "@/stores/ui.store";
 import { CountBadge } from "../ui/CountBadge";
 
 const tabs = [
-  { href: "/", icon: Home, label: "Base" },
+  { href: "/", icon: Home, label: "Home" },
   { href: "/zones", icon: Layers3, label: "Zones" },
   { action: "scout", icon: Search, label: "Scout" },
   { href: "/stash", icon: ShoppingBag, label: "Stash" },
@@ -23,7 +23,7 @@ export function MobileNav() {
   const { items } = useStash();
 
   return (
-    <nav className="glass-panel fixed inset-x-3 bottom-3 z-40 flex items-center justify-between rounded-full px-2 py-2 md:hidden">
+    <nav className="glass-panel fixed inset-x-3 bottom-3 z-40 flex items-center justify-between rounded-full px-2 py-2 lg:hidden">
       {tabs.map((tab) => {
         const Icon = tab.icon;
         const active = tab.href
@@ -51,8 +51,8 @@ export function MobileNav() {
             className={cn(
               "flex min-h-11 min-w-11 flex-col items-center justify-center rounded-full px-3 py-2 text-[0.68rem] transition",
               active
-                ? "bg-[var(--ayco-brand-indigo)] text-white"
-                : "text-[var(--ayco-text-secondary)]",
+                ? "bg-[var(--brand-500)] text-white"
+                : "text-[var(--text-body)]",
             )}
             href={tab.href ?? "/"}
             key={tab.href ?? tab.label}

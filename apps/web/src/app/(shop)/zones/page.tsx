@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 
+import { Section } from "@/components/layout/Section";
 import { ZoneCard } from "@/components/zones/ZoneCard";
 import { getZones } from "@/features/catalog/api";
 
@@ -15,22 +16,18 @@ export default async function ZonesPage() {
   const zones = await getZones();
 
   return (
-    <section className="space-y-8">
-      <div className="section-heading">
-        <p className="eyebrow">Browse Zones</p>
-        <h1 className="font-[var(--font-heading)] text-[var(--text-h1)] font-bold">
-          Start where your semester actually lives.
-        </h1>
-        <p className="max-w-2xl text-sm text-[var(--ayco-text-secondary)]">
-          Tech for your desk, dorm fixes for your room, and study gear that
-          earns its spot.
-        </p>
-      </div>
-      <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+    <Section
+      className="pt-0"
+      description="Each zone is meant to be a real entry point into the catalog, with cleaner context and product counts that help you scan faster."
+      eyebrow="Browse Zones"
+      title="Start where your semester actually lives."
+      useContainer={false}
+    >
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
         {zones.map((zone) => (
           <ZoneCard key={zone.slug} zone={zone} />
         ))}
       </div>
-    </section>
+    </Section>
   );
 }

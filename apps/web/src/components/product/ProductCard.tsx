@@ -13,8 +13,9 @@ import { useUiStore } from "@/stores/ui.store";
 import type { Product } from "@/types/product";
 
 import { Button } from "../ui/Button";
-import { HeatBadge } from "./HeatBadge";
-import { PriceTag } from "./PriceTag";
+
+const fallbackImage =
+  "https://images.unsplash.com/photo-1515377905703-c4788e51af15?auto=format&fit=crop&w=1200&q=80";
 
 export function ProductCard({
   product,
@@ -27,35 +28,44 @@ export function ProductCard({
   const openStash = useUiStore((state) => state.openStash);
   const addPing = useUiStore((state) => state.addPing);
   const { isVaulted, toggle } = useVault();
+  const primaryImage = product.images[0];
+  const rating =
+    typeof product.rating === "number" && product.rating > 0
+      ? product.rating.toFixed(1)
+      : null;
+  const showSale =
+    typeof product.originalPrice === "number" &&
+    product.originalPrice > product.price;
 
   return (
     <motion.article
-      className="group overflow-hidden rounded-[var(--radius-xl)] border border-white/8 bg-[linear-gradient(180deg,rgba(108,63,255,0.08)_0%,rgba(17,17,24,0.9)_100%)] shadow-[0_8px_30px_rgba(108,63,255,0.05)]"
+      className="group flex h-full flex-col overflow-hidden rounded-[var(--radius-lg)] border border-[var(--border-subtle)] bg-[var(--bg-surface)] shadow-[var(--shadow-card)]"
+      data-testid="product-card"
       transition={{ duration: 0.22 }}
-      whileHover={{ y: -6 }}
+      whileHover={{ y: -4 }}
     >
-      <div className="relative overflow-hidden">
+      <div className="relative overflow-hidden bg-[var(--bg-muted)]">
         <Link className="block" href={`/product/${product.id}`}>
           <Image
-            alt={product.images[0]?.alt ?? product.name}
-            className="aspect-[16/10] w-full object-cover transition duration-300 group-hover:scale-[1.03]"
-            height={960}
+            alt={primaryImage?.alt ?? product.name}
+            className="aspect-[4/5] w-full object-cover transition duration-300 group-hover:scale-[1.02]"
+            height={1200}
             priority={priority}
-            sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
-            src={product.images[0]?.src ?? ""}
-            width={1440}
+            sizes="(max-width: 479px) 100vw, (max-width: 767px) 50vw, (max-width: 1279px) 33vw, 25vw"
+            src={primaryImage?.src ?? fallbackImage}
+            width={960}
           />
-          {product.heatScore > 80 ? (
-            <div className="absolute left-3 top-3">
-              <HeatBadge score={product.heatScore} />
-            </div>
-          ) : null}
         </Link>
+        {product.heatScore > 0 ? (
+          <span className="absolute left-3 top-3 rounded-full bg-[var(--accent-amber)]/14 px-3 py-1 text-xs font-semibold text-[var(--accent-amber)]">
+            {product.heatScore} Heat
+          </span>
+        ) : null}
         <button
           aria-label={
             isVaulted(product.id) ? "Remove from Vault" : "Save to Vault"
           }
-          className="absolute right-3 top-3 rounded-full border border-white/10 bg-[rgba(8,8,13,0.65)] p-2 text-[var(--ayco-text-primary)] backdrop-blur-md transition hover:border-[var(--ayco-brand-cyan)]"
+          className="absolute right-3 top-3 rounded-full border border-[var(--border-subtle)] bg-[rgba(7,11,20,0.72)] p-2 text-[var(--text-strong)] backdrop-blur-md transition hover:border-[var(--accent-cyan)]"
           onClick={() => {
             toggle(product.id);
             addPing(
@@ -70,49 +80,69 @@ export function ProductCard({
           />
         </button>
       </div>
-      <div className="space-y-4 p-4">
-        <div className="space-y-2">
+      <div className="flex flex-1 flex-col p-4">
+        <div className="mb-3 space-y-3">
           <div className="flex items-start justify-between gap-3">
-            <div>
-              <Link
-                className="block font-[var(--font-heading)] text-lg font-bold leading-tight"
-                href={`/product/${product.id}`}
-              >
-                {product.name}
-              </Link>
-              <p className="text-sm text-[var(--ayco-text-secondary)]">
-                {product.subtitle}
-              </p>
-            </div>
-            <div className="flex items-center gap-1 text-sm text-[var(--ayco-text-secondary)]">
-              <Star className="size-4 fill-current text-[var(--ayco-brand-amber)]" />
-              {product.rating}
-            </div>
+            <Link
+              className="line-clamp-2 block font-[var(--font-heading)] text-lg font-semibold leading-tight text-[var(--text-strong)]"
+              href={`/product/${product.id}`}
+            >
+              {product.name}
+            </Link>
+            {rating ? (
+              <span className="shrink-0 text-sm text-[var(--accent-amber)]">
+                <span className="inline-flex items-center gap-1">
+                  <Star className="size-4 fill-current" />
+                  {rating}
+                </span>
+              </span>
+            ) : null}
           </div>
-          <PriceTag
-            originalPrice={product.originalPrice}
-            price={product.price}
-          />
+          <p className="line-clamp-2 min-h-10 text-sm text-[var(--text-body)]">
+            {product.description || product.subtitle}
+          </p>
+          <div className="flex flex-wrap items-center gap-2 text-xs text-[var(--text-muted)]">
+            <span className="rounded-full bg-white/5 px-3 py-1">
+              {product.zone}
+            </span>
+            {product.dispatchDays > 0 ? (
+              <span className="rounded-full bg-white/5 px-3 py-1">
+                Ships in {product.dispatchDays} days
+              </span>
+            ) : null}
+          </div>
         </div>
-        <Button
-          className={cn("w-full")}
-          onClick={() => {
-            addItem({
-              color: product.colors[0] ?? "One",
-              image: product.images[0]?.src ?? "",
-              name: product.name,
-              price: product.price,
-              productId: product.id,
-              quantity: 1,
-              size: product.sizes[0] ?? "One Size",
-            });
-            openStash();
-            addPing(`${product.name} grabbed. It’s in your Stash.`);
-            trackEvent("product_grabbed", { productId: product.id });
-          }}
-        >
-          Grab It
-        </Button>
+        <div className="mt-auto space-y-4">
+          <div className="flex items-end gap-2">
+            <span className="text-2xl font-bold text-[var(--text-strong)]">
+              ${product.price.toFixed(2)}
+            </span>
+            {showSale ? (
+              <span className="text-sm text-[var(--text-muted)] line-through">
+                ${product.originalPrice?.toFixed(2)}
+              </span>
+            ) : null}
+          </div>
+          <Button
+            className={cn("w-full")}
+            onClick={() => {
+              addItem({
+                color: product.colors[0] ?? "One",
+                image: primaryImage?.src ?? fallbackImage,
+                name: product.name,
+                price: product.price,
+                productId: product.id,
+                quantity: 1,
+                size: product.sizes[0] ?? "One Size",
+              });
+              openStash();
+              addPing(`${product.name} grabbed. It’s in your Stash.`);
+              trackEvent("product_grabbed", { productId: product.id });
+            }}
+          >
+            Grab It
+          </Button>
+        </div>
       </div>
     </motion.article>
   );

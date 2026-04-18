@@ -1,3 +1,4 @@
+import { Container } from "@/components/layout/Container";
 import { MobileNav } from "@/components/layout/MobileNav";
 import { Navbar } from "@/components/layout/Navbar";
 import { LockerMobileNav } from "@/components/locker/LockerMobileNav";
@@ -12,22 +13,26 @@ export default function LockerLayout({
   return (
     <>
       <Navbar />
-      <main className="page-shell py-8" id="main-content">
-        <div className="mb-6 space-y-4 lg:hidden">
-          <div className="section-heading">
-            <p className="eyebrow">Your Locker</p>
-            <h1 className="font-[var(--font-heading)] text-[var(--text-h1)] font-bold">
-              Claims, Clout, Vault, and settings in one place.
-            </h1>
+      <main id="main-content">
+        <Container className="py-8 sm:py-10 lg:py-14">
+          <div className="mb-6 space-y-4 xl:hidden">
+            <div className="section-heading">
+              <p className="eyebrow">My Locker</p>
+              <h1 className="font-[var(--font-heading)] text-[var(--text-h1)] font-bold">
+                Claims, Clout, saved picks, and account settings in one place.
+              </h1>
+            </div>
+            <LockerMobileNav />
           </div>
-          <LockerMobileNav />
-        </div>
-        <div className="grid gap-6 lg:grid-cols-[280px,1fr]">
-          <aside className="glass-panel hidden h-fit rounded-[var(--radius-xl)] p-6 lg:block lg:sticky lg:top-24">
-            <LockerSidebar />
-          </aside>
-          <section className="space-y-8">{children}</section>
-        </div>
+          <div className="grid grid-cols-1 gap-6 xl:grid-cols-[260px_minmax(0,1fr)]">
+            <aside className="hidden xl:sticky xl:top-24 xl:block xl:self-start">
+              <div className="surface-panel rounded-[var(--radius-lg)] p-6">
+                <LockerSidebar />
+              </div>
+            </aside>
+            <section className="space-y-8">{children}</section>
+          </div>
+        </Container>
       </main>
       <MobileNav />
       <StashDrawer />

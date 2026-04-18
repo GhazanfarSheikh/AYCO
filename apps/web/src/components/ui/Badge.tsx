@@ -7,11 +7,11 @@ type BadgeProps = {
 };
 
 const tones: Record<NonNullable<BadgeProps["tone"]>, string> = {
-  amber: "bg-[var(--ayco-brand-amber)]/16 text-[var(--ayco-brand-amber)]",
-  cyan: "bg-[var(--ayco-brand-cyan)]/14 text-[var(--ayco-brand-cyan)]",
-  indigo: "bg-[var(--ayco-brand-indigo)]/18 text-[var(--ayco-text-primary)]",
-  lime: "bg-[var(--ayco-brand-lime)]/18 text-[var(--ayco-brand-lime)]",
-  neutral: "bg-white/6 text-[var(--ayco-text-secondary)]",
+  amber: "bg-[var(--accent-amber)]/14 text-[var(--accent-amber)]",
+  cyan: "bg-[var(--accent-cyan)]/14 text-[var(--accent-cyan)]",
+  indigo: "bg-[var(--brand-500)]/18 text-[var(--text-strong)]",
+  lime: "bg-[var(--accent-lime)]/16 text-[var(--accent-lime)]",
+  neutral: "bg-white/6 text-[var(--text-body)]",
 };
 
 export function Badge({ children, className, tone = "neutral" }: BadgeProps) {
