@@ -1,3 +1,4 @@
+import type { ApiResponse } from "@ayco/contracts";
 import { Controller, Get, Query } from "@nestjs/common";
 import { ApiOkResponse, ApiQuery, ApiTags } from "@nestjs/swagger";
 
@@ -16,7 +17,9 @@ export class ScoutController {
   })
   @ApiQuery({ name: "q", required: true })
   @ApiQuery({ name: "campus", required: false })
-  async search(@Query() query: Record<string, unknown>) {
+  async search(
+    @Query() query: Record<string, unknown>,
+  ): Promise<ApiResponse<Awaited<ReturnType<ScoutService["search"]>>>> {
     return ok(await this.scoutService.search(query));
   }
 }

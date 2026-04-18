@@ -1,3 +1,4 @@
+import type { ApiResponse } from "@ayco/contracts";
 import { Controller, Get, Query } from "@nestjs/common";
 import { ApiOkResponse, ApiQuery, ApiTags } from "@nestjs/swagger";
 
@@ -16,7 +17,9 @@ export class HeatController {
   @ApiQuery({ name: "limit", required: false })
   @ApiQuery({ name: "tier", required: false })
   @ApiQuery({ name: "examMode", required: false })
-  async listHeat(@Query() query: Record<string, unknown>) {
+  async listHeat(
+    @Query() query: Record<string, unknown>,
+  ): Promise<ApiResponse<Awaited<ReturnType<HeatService["listHeat"]>>>> {
     return ok(await this.heatService.listHeat(query));
   }
 }

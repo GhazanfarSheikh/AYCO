@@ -1,4 +1,4 @@
-import { successResponse, updatePreferencesSchema } from "@ayco/contracts";
+import { type ApiResponse, updatePreferencesSchema } from "@ayco/contracts";
 import {
   Body,
   Controller,
@@ -10,6 +10,7 @@ import {
 } from "@nestjs/common";
 import { ApiBearerAuth, ApiOkResponse, ApiTags } from "@nestjs/swagger";
 
+import { ok } from "@/common/http/api-response.util";
 import { ZodValidationPipe } from "@/common/pipes/zod-validation.pipe";
 import { AccessTokenGuard } from "@/modules/auth/guards/access-token.guard";
 
@@ -24,8 +25,10 @@ export class UsersController {
 
   @Get("me")
   @ApiOkResponse({ description: "Return current authenticated user profile." })
-  async me(@Req() request: { user: { sub: string } }) {
-    return successResponse(await this.usersService.getMe(request.user.sub));
+  async me(
+    @Req() request: { user: { sub: string } },
+  ): Promise<ApiResponse<Awaited<ReturnType<UsersService["getMe"]>>>> {
+    return ok(await this.usersService.getMe(request.user.sub));
   }
 
   @Patch("preferences")
@@ -34,8 +37,10 @@ export class UsersController {
   async updatePreferences(
     @Req() request: { user: { sub: string } },
     @Body() body: unknown,
-  ) {
-    return successResponse(
+  ): Promise<
+    ApiResponse<Awaited<ReturnType<UsersService["updatePreferences"]>>>
+  > {
+    return ok(
       await this.usersService.updatePreferences(request.user.sub, body),
     );
   }

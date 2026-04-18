@@ -1,3 +1,4 @@
+import type { ApiResponse } from "@ayco/contracts";
 import { Controller, Get, Param } from "@nestjs/common";
 import { ApiOkResponse, ApiTags } from "@nestjs/swagger";
 
@@ -12,13 +13,17 @@ export class ZonesController {
 
   @Get()
   @ApiOkResponse({ description: "List active catalog zones." })
-  async listZones() {
+  async listZones(): Promise<
+    ApiResponse<Awaited<ReturnType<ZonesService["listZones"]>>>
+  > {
     return ok(await this.zonesService.listZones());
   }
 
   @Get(":slug")
   @ApiOkResponse({ description: "Get zone metadata and Dial In defaults." })
-  async getZone(@Param("slug") slug: string) {
+  async getZone(
+    @Param("slug") slug: string,
+  ): Promise<ApiResponse<Awaited<ReturnType<ZonesService["getZoneDetail"]>>>> {
     return ok(await this.zonesService.getZoneDetail(slug));
   }
 }

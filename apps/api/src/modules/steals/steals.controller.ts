@@ -1,3 +1,4 @@
+import type { ApiResponse } from "@ayco/contracts";
 import { Controller, Get, Query } from "@nestjs/common";
 import { ApiOkResponse, ApiQuery, ApiTags } from "@nestjs/swagger";
 
@@ -14,7 +15,9 @@ export class StealsController {
   @ApiOkResponse({ description: "List active Steals with lead selection." })
   @ApiQuery({ name: "campus", required: false })
   @ApiQuery({ name: "limit", required: false })
-  async listSteals(@Query() query: Record<string, unknown>) {
+  async listSteals(
+    @Query() query: Record<string, unknown>,
+  ): Promise<ApiResponse<Awaited<ReturnType<StealsService["listSteals"]>>>> {
     return ok(await this.stealsService.listSteals(query));
   }
 }

@@ -1,8 +1,8 @@
 import {
+  type ApiResponse,
   loginSchema,
   refreshSessionSchema,
   registerSchema,
-  successResponse,
 } from "@ayco/contracts";
 import {
   Body,
@@ -14,7 +14,7 @@ import {
 } from "@nestjs/common";
 import { ApiOkResponse, ApiTags } from "@nestjs/swagger";
 import type { FastifyReply } from "fastify";
-
+import { ok } from "@/common/http/api-response.util";
 import { ZodValidationPipe } from "@/common/pipes/zod-validation.pipe";
 
 import { ACCESS_TOKEN_COOKIE, REFRESH_TOKEN_COOKIE } from "./auth.constants";
@@ -31,10 +31,12 @@ export class AuthController {
   async register(
     @Body() body: unknown,
     @Res({ passthrough: true }) reply: FastifyReply,
-  ) {
+  ): Promise<
+    ApiResponse<Awaited<ReturnType<AuthService["register"]>>["user"]>
+  > {
     const session = await this.authService.register(body);
     this.setSessionCookies(reply, session.accessToken, session.refreshToken);
-    return successResponse(session.user);
+    return ok(session.user);
   }
 
   @Post("login")
@@ -44,10 +46,10 @@ export class AuthController {
   async login(
     @Body() body: unknown,
     @Res({ passthrough: true }) reply: FastifyReply,
-  ) {
+  ): Promise<ApiResponse<Awaited<ReturnType<AuthService["login"]>>["user"]>> {
     const session = await this.authService.login(body);
     this.setSessionCookies(reply, session.accessToken, session.refreshToken);
-    return successResponse(session.user);
+    return ok(session.user);
   }
 
   @Post("refresh")
@@ -57,19 +59,21 @@ export class AuthController {
   async refresh(
     @Body() body: unknown,
     @Res({ passthrough: true }) reply: FastifyReply,
-  ) {
+  ): Promise<ApiResponse<Awaited<ReturnType<AuthService["refresh"]>>["user"]>> {
     const session = await this.authService.refresh(body);
     this.setSessionCookies(reply, session.accessToken, session.refreshToken);
-    return successResponse(session.user);
+    return ok(session.user);
   }
 
   @Post("logout")
   @HttpCode(200)
   @ApiOkResponse({ description: "Clear session cookies." })
-  logout(@Res({ passthrough: true }) reply: FastifyReply) {
+  logout(
+    @Res({ passthrough: true }) reply: FastifyReply,
+  ): ApiResponse<{ loggedOut: true }> {
     reply.clearCookie(ACCESS_TOKEN_COOKIE);
     reply.clearCookie(REFRESH_TOKEN_COOKIE);
-    return successResponse({ loggedOut: true });
+    return ok({ loggedOut: true });
   }
 
   private setSessionCookies(
